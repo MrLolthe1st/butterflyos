@@ -5,7 +5,7 @@ LDFLAGS=-Ttext 0x100000
 BINDIR=binaries
 BINDIRP=binaries/
 SRCDIR=sources
-SOURCES1=kernel.cpp video.cpp memory/memory.cpp string.cpp interrupts.cpp ports.cpp storage/storage.cpp storage/ata.cpp
+SOURCES1=kernel.cpp video.cpp memory/memory.cpp string.cpp interrupts.cpp ports.cpp storage/storage.cpp storage/ata.cpp input/input.cpp input/ps2.cpp pci.cpp
 OBJECTS=$(addprefix $(BINDIRP), $(SOURCES1:.cpp=.o))
 EXECUTABLE=kernel.bin
 

@@ -1,6 +1,11 @@
 #include "../includes/storage/ata.h"
 #include "../includes/storage/storage.h"
 #include "../includes/video.h"
+#include "../includes/memory/memory.h"
+#include "../includes/interrupts.h"
+
+#pragma GCC push_options
+#pragma GCC optimize("Ofast")
 ATA_Drive ata_disks[4];
 
 void wait_for_set(int * a, int c)
@@ -46,7 +51,7 @@ int ATA_Drive::identify_drive(unsigned short * buf)
 	outportb(this->port + ATA_COMMAND_OFFSET, ATA_IDENTIFY);
 	this->wait_ready();
 	char result = inportb(this->port + ATA_STATUS_OFFSET);
-	if (result == 0) return 0;
+	if (result == 0 || result == 1) return 0;
 	this->wait_data();
 	for (int i = 0; i < 256; i++)
 		buf[i] = inportw(this->port + ATA_DATA_OFFSET);
@@ -68,12 +73,13 @@ int ATA_Drive::identify_drive(unsigned short * buf)
 		this->sectors_count = (((unsigned long long) buf[103]) << 48) +
 		(((unsigned long long) buf[102]) << 32) +
 		(((unsigned long long) buf[101]) << 16) +
-		(((unsigned long long) buf[100])) + 1;
+		(((unsigned long long) buf[100]));
 	else
 		this->sectors_count = (((unsigned long long) buf[61]) << 16) +
-		(((unsigned long long) buf[60])) + 1;
+		(((unsigned long long) buf[60]));
 	this->present = 1;
 	this->busy &= ~1;
+	return 1;
 }
 
 int ATA_Drive::write_lba28(long long start, short count, void * buffer)
@@ -102,13 +108,13 @@ int ATA_Drive::write_lba48(long long start, short count, void * buffer)
 	this->busy |= 1;
 	int LBA0 = (start >> 0) & 0xFFFF, LBA1 = (start >> 16) & 0xFFFF, LBA2 = (start >> 32) & 0xFFFF;
 	outportb(this->port + ATA_COUNT_OFFSET, count >> 8);
-	outportb(this->port + ATA_LBALO_OFFSET, (LBA0 >> 8) & 0xFF);
-	outportb(this->port + ATA_LBAMI_OFFSET, (LBA1 >> 8) & 0xFF);
+	outportb(this->port + ATA_LBALO_OFFSET, (LBA1 >> 8) & 0xFF);
+	outportb(this->port + ATA_LBAMI_OFFSET, (LBA2) & 0xFF);
 	outportb(this->port + ATA_LBAHI_OFFSET, (LBA2 >> 8) & 0xFF);
 	outportb(this->port + ATA_COUNT_OFFSET, count & 0xFF);
 	outportb(this->port + ATA_LBALO_OFFSET, (LBA0) & 0xFF);
-	outportb(this->port + ATA_LBAMI_OFFSET, (LBA1) & 0xFF);
-	outportb(this->port + ATA_LBAHI_OFFSET, (LBA2) & 0xFF);
+	outportb(this->port + ATA_LBAMI_OFFSET, (LBA0 >> 8) & 0xFF);
+	outportb(this->port + ATA_LBAHI_OFFSET, (LBA1) & 0xFF);
 	outportb(this->port + ATA_DRIVE_OFFSET, DRIVE_REG_INITIAL | DRIVE_LBA_ENABLE | (this->drive << DRIVE_DRIVE_SHIFT));
 	outportb(this->port + ATA_COMMAND_OFFSET, ATA_WRITE_EXT);
 	this->wait_ready();
@@ -151,17 +157,19 @@ int ATA_Drive::read_lba28(long long start, short count, void * buffer)
 
 int ATA_Drive::read_lba48(long long start, short count, void * buffer)
 {
+	//count = 1;
 	wait_for_clear(&this->busy, 1);
 	this->busy |= 1;
+	this->wait_ready();
 	int LBA0 = (start >> 0) & 0xFFFF, LBA1 = (start >> 16) & 0xFFFF, LBA2 = (start >> 32) & 0xFFFF;
 	outportb(this->port + ATA_COUNT_OFFSET, count >> 8);
-	outportb(this->port + ATA_LBALO_OFFSET, (LBA0 >> 8) & 0xFF);
-	outportb(this->port + ATA_LBAMI_OFFSET, (LBA1 >> 8) & 0xFF);
+	outportb(this->port + ATA_LBALO_OFFSET, (LBA1 >> 8) & 0xFF);
+	outportb(this->port + ATA_LBAMI_OFFSET, (LBA2) & 0xFF);
 	outportb(this->port + ATA_LBAHI_OFFSET, (LBA2 >> 8) & 0xFF);
 	outportb(this->port + ATA_COUNT_OFFSET, count & 0xFF);
 	outportb(this->port + ATA_LBALO_OFFSET, (LBA0) & 0xFF);
-	outportb(this->port + ATA_LBAMI_OFFSET, (LBA1) & 0xFF);
-	outportb(this->port + ATA_LBAHI_OFFSET, (LBA2) & 0xFF);
+	outportb(this->port + ATA_LBAMI_OFFSET, (LBA0 >> 8) & 0xFF);
+	outportb(this->port + ATA_LBAHI_OFFSET, (LBA1) & 0xFF);
 	outportb(this->port + ATA_DRIVE_OFFSET, DRIVE_REG_INITIAL | DRIVE_LBA_ENABLE | (this->drive << DRIVE_DRIVE_SHIFT));
 	outportb(this->port + ATA_COMMAND_OFFSET, ATA_READ_EXT);
 	this->wait_ready();
@@ -185,11 +193,13 @@ int ATA_Drive::read(long long start, short count, void * buffer)
 int ATA_Drive::init(int port, int drive)
 {
 	this->port = port;
-	this->present = 0;
+	this->present = false;
 	this->busy = 0;
 	this->drive = drive;
 	unsigned short identify[256];
 	if (this->identify_drive((unsigned short *)&identify)) {
+		this->busy = 0;
+		this->present = true;
 		print_string("Detected ATA disk: ");
 		print_string(this->model);
 		print_string("\n");
@@ -200,19 +210,34 @@ int ATA_Drive::init(int port, int drive)
 
 void ata_init()
 {
-	ATA_Drive a;
-	if (a.init(PRIMARY_BASE, 0))
-		ata_disks[0] = a;
-	if (a.init(PRIMARY_BASE, 1))
-		ata_disks[1] = a;
-	if (a.init(SECONDARY_BASE, 0))
-		ata_disks[2] = a;
-	if (a.init(SECONDARY_BASE, 1))
-		ata_disks[3] = a;
-	for (int i = 0; i < 4; i++)
+	ata_disks[0].init(PRIMARY_BASE, 0);
+	ata_disks[1].init(PRIMARY_BASE, 1);
+	ata_disks[2].init(SECONDARY_BASE, 0);
+	ata_disks[3].init(SECONDARY_BASE, 1);
+	for (int i = 0; i < 3; i++)
 		if (ata_disks[i].present)
 		{
 			storage_add(&ata_disks[i], STORAGE_ATA);
+
+			print_string("Testing read speed....\n");
+			print_string("Single-sector mode: ");
+			char * buf = (char*)malloc(512 * 16);
+			long long t = time;
+			for (int j = 0; j < 2048; j++)
+			{
+				ata_disks[i].read((long long)j, 1, (void*)buf);
+			}
+			print_int((int)(time - t), 10);
+			print_string(" ticks/megabyte.\nMultisector mode: ");
+			t = time;
+			for (int j = 0; j < 2048 / 16; j++)
+			{
+				ata_disks[i].read((long long)(2048 + j * 16), (short)16, (void*)buf);
+			}
+			print_int((int)(time - t), 10);
+			print_string(" ticks/megabyte.\n");
+			free(buf);
 		}
 	print_string("ATA Ready.\n");
 }
+#pragma GCC pop_options

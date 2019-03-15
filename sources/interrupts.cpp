@@ -26,25 +26,37 @@ void int_l() {
 }
 
 #include "includes/video.h"
-
+long long time = 0;
 IRQ_HANDLER(pit_timer)
 {
-	//print_int(12345678, 10);
+	time++;
+	if (pressed_keys != 0 && (time - last_press) > 1)
+	{
+		keys_queue.insert(Key(pressed_keys, 1));
+		last_press = time;
+	}
+}
+
+
+
+IRQ_HANDLER(ps2_keyboard)
+{
+	keyboard_handle();
 }
 
 IDT_HANDLER(some)
 {
-	
+
 }
 
 IRQ_HANDLER(some1)
 {
-	
+
 }
 
 IRQ_HANDLER_PIC2(some2)
 {
-	
+
 }
 
 void init_idt()
@@ -59,14 +71,14 @@ void init_idt()
 	outportb(0xa1, 0x01);
 	outportb(0x21, 0x00);
 	outportb(0xa1, 0x00);
-	for(int i = 0; i < 256; i++)
+	for (int i = 0; i < 256; i++)
 		inst(i, &some, 0x8E);
-	for(int i = 0x20; i < 0x30; i++)
+	for (int i = 0x20; i < 0x30; i++)
 		inst(i, &some1, 0x8E);
-	for(int i = 0x30; i < 0x40; i++)
+	for (int i = 0x30; i < 0x40; i++)
 		inst(i, &some2, 0x8E);
 	inst(0x20, &pit_timer, 0x8E);
-	
+	inst(0x21, &ps2_keyboard, 0x8E);
 	int_l();
 	__asm__("sti");
 }

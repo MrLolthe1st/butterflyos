@@ -1,0 +1,6 @@
+.vs/*
+*.db
+*.o
+*.bin
+*.img
+*.vhd

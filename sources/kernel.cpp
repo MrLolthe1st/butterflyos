@@ -5,12 +5,19 @@
 #include "includes/interrupts.h"
 #include "includes/ports.h"
 #include "includes/storage/storage.h"
-
+#include "includes/PCI.h"
 int main()
 {
 	clear_screen();
 	init_memory();
 	init_idt();
 	storages_init();
-	for(;;);
+	PciInit();
+	for (;;) {
+		Key z = keys_queue.get();
+		if (z.keycode != 0 && z.pressed == 1)
+		{
+			print_char(z.keycode);
+		}
+	}
 }
