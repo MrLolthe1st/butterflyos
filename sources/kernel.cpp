@@ -6,16 +6,30 @@
 #include "includes/ports.h"
 #include "includes/storage/storage.h"
 #include "includes/PCI.h"
+#include "std/trees.h"
+
+#include "std/map.h"
+
 int main()
 {
+
 	clear_screen();
 	init_memory();
-	print_string("1");
 	init_idt();
-	print_string("2");
 	storages_init();
-	print_string("3");
 	PciInit();
+	printf("\n");
+
+	map<int, int> m;
+	long long t = time;
+	for (int i = 0; i < 50; i++) {
+		m[i] = i * 3;
+	}
+	map<int, int>::iterator it = m.begin();
+	while (it != m.end()) {
+		printf("[%d:%d]", it.first, it.second);
+		it++;
+	}
 	for (;;) {
 		Key z = keys_queue.get();
 		if (z.keycode != 0 && z.pressed == 1)
