@@ -1,7 +1,8 @@
 #ifndef _PCI_H
 #define _PCI_H (1)
 #include "ports.h"
-
+#include "storage/storage.h"
+#include "storage/ahci.h"
 
 #define PCI_MAKE_ID(bus, dev, func)     ((bus) << 16) | ((dev) << 11) | ((func) << 8)
 

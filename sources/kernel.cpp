@@ -10,8 +10,11 @@ int main()
 {
 	clear_screen();
 	init_memory();
+	print_string("1");
 	init_idt();
+	print_string("2");
 	storages_init();
+	print_string("3");
 	PciInit();
 	for (;;) {
 		Key z = keys_queue.get();

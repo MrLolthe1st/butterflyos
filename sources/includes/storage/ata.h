@@ -64,8 +64,8 @@ public:
 	char model[41];
 	long long sectors_count;
 	int init(int, int);
-	void wait_ready();
-	void wait_data();
+	int wait_ready();
+	int wait_data();
 	int identify_drive(unsigned short *);
 	int read(long long, short, void * );
 	int write(long long, short, void * );

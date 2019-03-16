@@ -19,21 +19,25 @@ void wait_for_clear(short * a, int c)
 }
 
 
-void ATA_Drive::wait_ready()
+int ATA_Drive::wait_ready()
 {
+	if (inportb(this->port + ATA_STATUS_OFFSET) & 1) return 0;
 	while (inportb(this->port + ATA_STATUS_OFFSET) & (1 << STATUS_BSY_SHIFT));
+	return 1;
 }
 
-void ATA_Drive::wait_data()
+int ATA_Drive::wait_data()
 {
+	if (inportb(this->port + ATA_STATUS_OFFSET) & 1) return 0 ;
 	while (!(inportb(this->port + ATA_STATUS_OFFSET) & (1 << STATUS_DRQ_SHIFT)));
+	return 1;
 }
 
 int ATA_Drive::identify_drive(unsigned short * buf)
 {
 	wait_for_clear(&this->busy, 1);
 	this->busy |= 1;
-	this->wait_ready();
+	if(!this->wait_ready()) return 0;
 	outportb(this->port + ATA_DRIVE_OFFSET, DRIVE_REG_INITIAL | (this->drive << DRIVE_DRIVE_SHIFT));
 	inportb(this->port + ATA_STATUS_OFFSET);
 	inportb(this->port + ATA_STATUS_OFFSET);

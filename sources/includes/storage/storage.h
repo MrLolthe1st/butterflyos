@@ -2,6 +2,7 @@
 #define _STORAGE_H (1)
 #include "../ports.h"
 #include "ata.h"
+#include "ahci.h"
 #define STORAGE_ATA		1
 #define STORAGE_AHCI	2
 #define STORAGE_USB		3
