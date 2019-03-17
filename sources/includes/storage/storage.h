@@ -16,6 +16,7 @@ class disk_storage {
 public:
 	void init(void *, int);
 	int read(long long, short, void *);
+	int write(long long, short, void *);
 private:
 
 };

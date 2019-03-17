@@ -19,9 +19,7 @@
 #ifndef _TLSF_H_
 #define _TLSF_H_
 #include "../includes/target.h"
-#include "../includes/string.h"
-//#include <sys/types.h>
-
+//#include "../includes/string.h"
 extern size_t init_memory_pool(size_t, void *);
 extern size_t get_used_size(void *);
 extern size_t get_max_size(void *);

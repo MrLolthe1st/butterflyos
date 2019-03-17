@@ -197,7 +197,7 @@ char * strposn(const char *p, const char *q) {
 	return (0);
 }
 
-char * strchr(const char *p, int c) { 
+char * strchr(const char *p, int c) {
 	if (!p)
 		return (0);
 
@@ -1063,16 +1063,15 @@ void *memset(void *buf, int ch, size_t count)
 	for (size_t i = 0; i < count; i++)
 		*c++ = ch;
 }
-
+char buffer[1024];
 int printf(const char * str, ...)
 {
 	if (!str)
 		return 0;
 	va_list ap;
 	va_start(ap, str);
-	char * buffer = (char*)malloc(512);
+
 	int res = vsprintf(buffer, (char *)str, ap);
 	print_string(buffer);
-	free(buffer);
 	return res;
 }

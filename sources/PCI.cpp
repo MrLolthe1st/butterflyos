@@ -398,14 +398,14 @@ static void PciVisit(unsigned int bus, unsigned int dev, unsigned int func)
 			}
 		}
 	}
-	print_int(info.classCode, 10);
+	/*print_int(info.classCode, 10);
 	print_char(':');
 	print_int(info.subclass, 10);
 	print_char(':');
 
 	print_string(PciClassName(info.classCode, info.subclass, info.progIntf));
 	print_string("\n");
-	/*_ehci_init(id, &info);
+	**//*_ehci_init(id, &info);
 	EthIntelInit(id, &info);
 	_uhci_init(id, &info);*/
 	//_rtl39_init(id, &info);
@@ -415,7 +415,7 @@ void _probe_port(void *abar_temp);
 // ------------------------------------------------------------------------------------------------
 void PciInit()
 {
-	print_string("PCI initialization...\n");
+	//print_string("PCI initialization...\n");
 	for (unsigned int bus = 0; bus < 256; ++bus)
 	{
 		for (unsigned int dev = 0; dev < 32; ++dev)
@@ -430,11 +430,7 @@ void PciInit()
 			}
 		}
 	}
-	//return;
-	print_string("AHCI initialization...\n");
 	unsigned int q = PciRead32(iddd, 0x24);
 	ahci_probe_port((void*)q);
-	//pcidone = 1;
-
 }
 

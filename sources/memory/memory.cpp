@@ -23,14 +23,19 @@ size_t count_memory()
 void init_memory()
 {
 	heap_size = count_memory();
-	print_int(heap_size / 1024, 10);
-	print_string("KB heap ready.\n");
+	//print_int(heap_size / 1024, 10);
+	//print_string("KB heap ready.\n");
 	init_memory_pool(heap_size, heap_pool);
 }
 
 void * malloc(size_t size)
 {
 	return malloc_ex(size, heap_pool);
+}
+
+void * realloc(void * a, size_t b)
+{
+	return realloc_ex(a, b, heap_pool);
 }
 
 void free(void *ptr)

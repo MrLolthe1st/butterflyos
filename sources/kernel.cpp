@@ -7,34 +7,23 @@
 #include "includes/storage/storage.h"
 #include "includes/PCI.h"
 #include "std/trees.h"
-
 #include "std/map.h"
-
+#include "includes/storage/drives.h"
 int main()
 {
-
 	clear_screen();
 	init_memory();
 	init_idt();
 	storages_init();
 	PciInit();
+	drives_init();
 	printf("\n");
-
-	map<int, int> m;
-	long long t = time;
-	for (int i = 0; i < 50; i++) {
-		m[i] = i * 3;
-	}
-	map<int, int>::iterator it = m.begin();
-	while (it != m.end()) {
-		printf("[%d:%d]", it.first, it.second);
-		it++;
-	}
 	for (;;) {
 		Key z = keys_queue.get();
 		if (z.keycode != 0 && z.pressed == 1)
 		{
 			print_char(z.keycode);
 		}
+		__asm__("hlt");
 	}
 }

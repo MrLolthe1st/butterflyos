@@ -3,6 +3,7 @@
 #define __RB_TREE_H__ 1
 #include "../includes/target.h"
 #include "../includes/memory/memory.h"
+#include "../includes/string.h"
 
 #ifndef RB_ITER_MAX_HEIGHT
 #define RB_ITER_MAX_HEIGHT 64 // Tallest allowable tree to iterate

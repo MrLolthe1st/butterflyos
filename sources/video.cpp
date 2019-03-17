@@ -1,6 +1,8 @@
 #include "includes/video.h"
 int cursor = 0, attr = 0x0F;
 
+void *memcpy(void *dest, const void *source, size_t count);
+void *memset(void *buf, int ch, size_t count);
 void scroll()
 {
 	memcpy((char*) VIDEO_SEG, (char*) VIDEO_SEG + WIDTH * 2, (HEIGHT - 1) * WIDTH * 2);

@@ -6,12 +6,19 @@
 template < typename _Key, typename _Ty>
 class pair {
 public:
-	_Key first;
-	_Ty second;
+	_Key first = _Key();
+	_Ty second = _Ty();
 	pair<_Key, _Ty>& operator=(pair<_Key, _Ty>  a)
 	{
 		first = a.first;
 		second = a.second;
+	}
+
+	int operator-(pair<_Key, _Ty> a)
+	{
+		if (this->first - a.first)
+			return this->first - a.first;
+		else return this->second - a.second;
 	}
 	pair() {};
 };
@@ -20,7 +27,7 @@ template < typename _Key, typename _Ty>
 int memcmp(struct rb_tree * w, struct rb_node * z, struct rb_node * x) {
 	pair<_Key, _Ty> * a = (pair<_Key, _Ty> *)z->value;
 	pair<_Key, _Ty> * b = (pair<_Key, _Ty> *)x->value;
-	return a->first - b->first;
+	return a - b;
 }
 
 template < typename _Key, typename _Ty>
@@ -30,15 +37,15 @@ public:
 	class iterator : public pair<_Key, _Ty> {
 	public:
 		struct rb_iter * iter;
-		
+
 		iterator(struct rb_iter * it) { iter = it; };
-		
+
 		iterator& operator=(pair<_Key, _Ty>  a)
 		{
 			this->first = a.first;
 			this->second = a.second;
 		}
-	
+
 		iterator operator++(int a)
 		{
 			iterator T = *this;
@@ -57,6 +64,7 @@ public:
 		}
 
 		~iterator() { if (iter) rb_iter_dealloc(iter); }
+
 
 		iterator& operator++()
 		{
@@ -84,10 +92,13 @@ public:
 			return this->iter == b.iter;
 		}
 	};
-	
-	~map()
+
+
+	void clear()
 	{
+		rb_tree_node_cmp_f u = tree->cmp;
 		rb_tree_dealloc(tree, NULL);
+		tree = rb_tree_create(u);
 	}
 
 	iterator begin()
@@ -98,16 +109,16 @@ public:
 		it = *val;
 		return it;
 	}
-	
+
 	iterator end()
 	{
 		return endd;
 	}
-	
+
 	int size() {
 		return tree->size;
 	}
-	
+
 	_Ty& operator[](_Key k) {
 		pair<_Key, _Ty> * p = (pair<_Key, _Ty>*)malloc(sizeof(pair<_Key, _Ty>));
 		p->first = k; p->second = _Ty();
@@ -118,7 +129,7 @@ public:
 		}
 		else { free(p); return r->second; }
 	}
-	
+
 	int erase(_Key k)
 	{
 		pair<_Key, _Ty> * p = (pair<_Key, _Ty>*)malloc(sizeof(pair<_Key, _Ty>));
@@ -127,10 +138,12 @@ public:
 		free(p);
 		return res;
 	}
-	
+
+	//~map() { rb_tree_dealloc(tree, NULL); };
+
 	map() { tree = rb_tree_create(memcmp<_Key, _Ty>); };
-	
-	map(rb_tree_node_cmp_f z) { tree = rb_tree_create(z); };
+
+	void set_cmp(rb_tree_node_cmp_f z) { if (tree) rb_tree_dealloc(tree, NULL);  tree = rb_tree_create(z); };
 private:
 	iterator endd = iterator(0);
 };

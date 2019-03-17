@@ -1,9 +1,8 @@
-#ifndef _STRING_H
+﻿#ifndef _STRING_H
 #define _STRING_H (1)
 #include "target.h"
 #include <stdarg.h>
-void *memcpy(void *dest, const void *source, size_t count);
-void *memset(void *buf, int ch, size_t count);
+#include "video.h"
 char * strposn(const char *p, const char *q);
 char * strpbrk(const char *s1, const char *s2);
 int strpat(const char *s1, const char *s2);
@@ -24,4 +23,6 @@ char * strichr(char *p, int c);
 int gethex(int *vp, char *p, int n);
 //char * llbtoa(char *dst, int value, int base);
 int printf(const char * str, ...);
+#include "memory/memory.h"
+#include "target.h"
 #endif

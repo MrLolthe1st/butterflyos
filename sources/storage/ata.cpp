@@ -222,7 +222,7 @@ void ata_init()
 		if (ata_disks[i].present)
 		{
 			storage_add(&ata_disks[i], STORAGE_ATA);
-
+			/*
 			print_string("Testing read speed....\n");
 			print_string("Single-sector mode: ");
 			char * buf = (char*)malloc(512 * 16);
@@ -240,8 +240,8 @@ void ata_init()
 			}
 			print_int((int)(time - t), 10);
 			print_string(" ticks/megabyte.\n");
-			free(buf);
+			free(buf);*/
 		}
-	print_string("ATA Ready.\n");
+	//print_string("ATA Ready.\n");
 }
 #pragma GCC pop_options

@@ -1,5 +1,8 @@
 #include "../includes/storage/storage.h"
 #define uint unsigned int
+
+void *memcpy(void *dest, const void *source, size_t count);
+void *memset(void *buf, int ch, size_t count);
 HBA_MEM * abar;
 // ------------------------------------------------------------------------------------------------
 void port_rebase(HBA_PORT *port, int portno)
@@ -77,7 +80,7 @@ void stop_cmd(HBA_PORT *port)
 #define HBA_PxIS_TFES   (1 << 30)
 
 // ------------------------------------------------------------------------------------------------
-bool _read(HBA_MEM * abar, HBA_PORT *port, unsigned long long starth, unsigned long long count, uint16_t *buf)
+bool ahci_read_sectors(HBA_MEM * abar, HBA_PORT *port, unsigned long long starth, unsigned short count, uint16_t *buf)
 {
 	port->is = (uint32_t)-1;		// Clear pending interrupt bits
 	int spin = 0; // Spin lock timeout counter
@@ -236,21 +239,18 @@ bool AHCI_identify(HBA_MEM * abar, HBA_PORT *port, uint16_t *buf)
 
 
 // ------------------------------------------------------------------------------------------------
-int write_port(HBA_MEM * abar, HBA_PORT *port, unsigned long long starth, unsigned int count,
+int ahci_write_sectors(HBA_MEM * abar, HBA_PORT *port, unsigned long long starth, unsigned short count,
 	short * buf)
 {
 	port->is = (uint32_t)-1;		// Clear pending interrupt bits
-	int spin = 0; // Spin lock timeout counter
+	int spin = 0;					// Spin lock timeout counter
 	int slot = find_cmdslot(abar, port);
-	if (slot == -1)
-		return false;
-
+	if (slot == -1)	return false;
 	HBA_CMD_HEADER *cmdheader = (HBA_CMD_HEADER*)port->clb;
 	cmdheader += slot;
 	cmdheader->cfl = sizeof(FIS_REG_H2D) / sizeof(uint32_t);	// Command FIS size
 	cmdheader->w = 1;		// Read from device
 	cmdheader->prdtl = (uint16_t)((count - 1) >> 4) + 1;	// PRDT entries count
-
 	HBA_CMD_TBL *cmdtbl = (HBA_CMD_TBL*)(cmdheader->ctba);
 	memset(cmdtbl, 0, sizeof(HBA_CMD_TBL) +
 		(cmdheader->prdtl - 1) * sizeof(HBA_PRDT_ENTRY));
@@ -369,12 +369,12 @@ void AHCI_Drive::init(void * ptr, long long sect_cnt)
 
 int AHCI_Drive::read(long long LBA, short count, void * buf)
 {
-	return _read((HBA_MEM*)this->abar, (HBA_PORT*)this->port, LBA, (long long)count, (short unsigned int *)buf);
+	return ahci_read_sectors((HBA_MEM*)this->abar, (HBA_PORT*)this->port, LBA, (unsigned short)count, (short unsigned int *)buf);
 }
 
 int AHCI_Drive::write(long long LBA, short count, void * buf)
 {
-	return write_port((HBA_MEM*)this->abar, (HBA_PORT*)this->port, LBA, (long long)count, (short *)buf);
+	return ahci_write_sectors((HBA_MEM*)this->abar, (HBA_PORT*)this->port, LBA, (unsigned short)count, (short *)buf);
 }
 #include "../includes/interrupts.h"
 // ------------------------------------------------------------------------------------------------
@@ -394,7 +394,7 @@ void ahci_probe_port(void *abar_temp1)
 			int dt = check_type((HBA_PORT *)&abar_temp->ports[i]);
 			if (dt == AHCI_DEV_SATA)
 			{
-				print_string("SATA drive found at port...");
+				//print_string("SATA drive found at port...");
 				abar = abar_temp;
 				unsigned short * buf = (unsigned short *)malloc(16 * 512);
 				buf[0] = 1;
@@ -402,24 +402,10 @@ void ahci_probe_port(void *abar_temp1)
 				int jj = 0;
 				port_rebase(&abar_temp->ports[i], i);
 				abar_temp->ports[i].cmd |= 0x10;
-				abar_temp->ports[i].cmd |= 0x1;/*
-				long long t = time;
-				print_string("\nSingle-sector test: ");
-					for (int j = 0; j < 2048*8; j++)
-						res = _read(abar, &abar->ports[i], j, 1, buf);
-				print_int((long long)(time - t), 10);
-				print_string(" tiks/8MB\n");
-				print_string("Multi-sector test: ");
-					t = time;
-				for (int j = 0; j < 1024; j++)
-					res = _read(abar, &abar->ports[i], j, 16, buf);
-				print_int((long long)(time - t), 10);
-				print_string(" tiks/8MB\n");*/
-				res = _read(abar, &abar->ports[i], 0, 16, buf);
+				abar_temp->ports[i].cmd |= 0x1;
+				res = ahci_read_sectors(abar, &abar->ports[i], 0, 16, buf);
 				if (res != 0) {
-					print_int(buf[255], 16);
 					AHCI_identify(abar, &abar->ports[i], buf);
-					print_string(" Read test passed.\n");
 					AHCI_Drive * ad = (AHCI_Drive*)malloc(sizeof(AHCI_Drive));
 					ad->init((void*)&abar->ports[i], (long long)((identify_data*)buf)->sectors_48);
 					ad->abar = (void*)abar;
@@ -432,9 +418,7 @@ void ahci_probe_port(void *abar_temp1)
 						ad->model[j * 2] = aa;
 					}
 					ad->model[40] = 0;
-					print_int((int)ad->serctors_count >> 11, 10);
-					print_string("MB\n");
-					print_string((const char *)&ad->model);
+					printf("%dmbytes, %s\n", (int)ad->serctors_count >> 11, ad->model);
 				}
 				free(buf);
 			}

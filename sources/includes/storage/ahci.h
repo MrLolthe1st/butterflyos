@@ -352,13 +352,13 @@ typedef struct  identify_data
 int find_cmdslot(HBA_MEM * abar, HBA_PORT *m_port);
 void ahci_probe_port(void *abar_temp1);
 bool AHCI_identify(HBA_PORT *port, uint16_t *buf);
-bool _read(HBA_MEM*abar, HBA_PORT *port, unsigned long long starth, unsigned long long count, uint16_t *buf);
+bool ahci_read_sectors(HBA_MEM*abar, HBA_PORT *port, unsigned long long starth, unsigned short count, uint16_t *buf);
 void start_cmd(HBA_PORT *port);
 void stop_cmd(HBA_PORT *port);
 void port_rebase(HBA_PORT *port, int portno);
 int check_type(HBA_PORT *port);
 #define ATA_DEV_BUSY 0x80
 #define ATA_DEV_DRQ 0x08
-int write_port(HBA_MEM*abar, HBA_PORT *port, unsigned long long starth, unsigned int count,
-	unsigned int buf);
+int ahci_write_sectors(HBA_MEM*abar, HBA_PORT *port, unsigned long long starth, unsigned short count,
+	short * buf);
 #endif

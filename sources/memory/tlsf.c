@@ -121,6 +121,9 @@
 #define _DEBUG_TLSF_  (0)
 #endif
 
+void *memcpy(void *dest, const void *source, size_t count);
+void *memset(void *buf, int ch, size_t count);
+
 /*************************************************************************/
 /* Definition of the structures used by TLSF */
 
@@ -456,7 +459,7 @@ static __inline__ bhdr_t *process_area(void *area, size_t size)
 /******************************************************************/
 
 static char *mp = NULL;         /* Default memory pool. */
-
+#include "../includes/string.h"
 /******************************************************************/
 size_t init_memory_pool(size_t mem_pool_size, void *mem_pool)
 {
@@ -497,6 +500,7 @@ size_t init_memory_pool(size_t mem_pool_size, void *mem_pool)
 	tlsf->area_head = (area_info_t *)ib->ptr.buffer;
 
 #if TLSF_STATISTIC
+	
 	tlsf->used_size = mem_pool_size - (b->size & BLOCK_SIZE);
 	tlsf->max_size = tlsf->used_size;
 #endif
@@ -599,6 +603,7 @@ size_t get_used_size(void *mem_pool)
 /******************************************************************/
 size_t get_max_size(void *mem_pool)
 {
+	
 	/******************************************************************/
 #if TLSF_STATISTIC
 	return ((tlsf_t *)mem_pool)->max_size;
