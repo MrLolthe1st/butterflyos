@@ -44,7 +44,14 @@ void storages_init()
 	ata_init();
 }
 
+void make_patritions(disk_storage &disk)
+{
+
+}
+
 void storage_add(void * device, int devtype)
 {
-	storages[storages_count++].init(device, devtype);
+	int cnt = storages_count++;
+	storages[cnt].init(device, devtype);
+	make_patritions(storages[cnt]);
 }

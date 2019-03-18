@@ -8,5 +8,7 @@ void init_memory();
 void *malloc(size_t size);
 void free(void *ptr);
 void * malloc(size_t size);
+void * operator new(size_t size);
+void operator delete(void * ptr);
 
 #endif

@@ -28,7 +28,7 @@ int ATA_Drive::wait_ready()
 
 int ATA_Drive::wait_data()
 {
-	if (inportb(this->port + ATA_STATUS_OFFSET) & 1) return 0 ;
+	if (inportb(this->port + ATA_STATUS_OFFSET) & 1) return 0;
 	while (!(inportb(this->port + ATA_STATUS_OFFSET) & (1 << STATUS_DRQ_SHIFT)));
 	return 1;
 }
@@ -37,7 +37,7 @@ int ATA_Drive::identify_drive(unsigned short * buf)
 {
 	wait_for_clear(&this->busy, 1);
 	this->busy |= 1;
-	if(!this->wait_ready()) return 0;
+	if (!this->wait_ready()) return 0;
 	outportb(this->port + ATA_DRIVE_OFFSET, DRIVE_REG_INITIAL | (this->drive << DRIVE_DRIVE_SHIFT));
 	inportb(this->port + ATA_STATUS_OFFSET);
 	inportb(this->port + ATA_STATUS_OFFSET);
@@ -55,7 +55,7 @@ int ATA_Drive::identify_drive(unsigned short * buf)
 	outportb(this->port + ATA_COMMAND_OFFSET, ATA_IDENTIFY);
 	this->wait_ready();
 	char result = inportb(this->port + ATA_STATUS_OFFSET);
-	if (result == 0 || result == 1) return 0;
+	if (result == 0 || result | 1) return 0;
 	this->wait_data();
 	for (int i = 0; i < 256; i++)
 		buf[i] = inportw(this->port + ATA_DATA_OFFSET);

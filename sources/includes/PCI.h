@@ -310,4 +310,5 @@ static void PciReadBar(unsigned int id, unsigned int index, unsigned int *addres
 
 
 
+#include "../usb/usbd.h"
 #endif // !_PCI_H

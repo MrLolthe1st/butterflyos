@@ -42,3 +42,11 @@ void free(void *ptr)
 {
 	free_ex(ptr, heap_pool);
 }
+void * operator new(size_t size)
+{
+	return malloc(size);
+}
+void operator delete(void * ptr)
+{
+	return free(ptr);
+}

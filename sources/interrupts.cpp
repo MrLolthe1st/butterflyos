@@ -58,7 +58,19 @@ IRQ_HANDLER_PIC2(some2)
 {
 
 }
+long long time1024 = 0;
+IRQ_HANDLER_PIC2(rtc_time)
+{
+	outportb(0x70, 0x0C);	// select register C
+	inportb(0x71);		// just throw away contents
+	time1024++;
+}
 
+void Wait(int cnt) {
+	long long t = time;
+	int a;
+	while (time1024 - t < (long long)cnt);
+}
 void init_idt()
 {
 	outportb(0x20, 0x11);
@@ -79,6 +91,13 @@ void init_idt()
 		inst(i, &some2, 0x8E);
 	inst(0x20, &pit_timer, 0x8E);
 	inst(0x21, &ps2_keyboard, 0x8E);
+	inst(0x28, &rtc_time, 0x8E);
+	outportb(0x70, 0x8B);		// select register B, and disable NMI
+	char prev = inportb(0x71);	// read the current value of register B
+	outportb(0x70, 0x8B);		// set the index again (a read will reset the index to register D)
+	outportb(0x71, prev | 0x40);	// write the previous value ORed with 0x40. This turns on bit 6 of register B
+	outportb(0x70, 0x0C);	// select register C
+	inportb(0x71);		// just throw away contents
 	int_l();
 	__asm__("sti");
 }

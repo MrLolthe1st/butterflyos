@@ -65,7 +65,6 @@ public:
 
 		~iterator() { if (iter) rb_iter_dealloc(iter); }
 
-
 		iterator& operator++()
 		{
 			void * z;
@@ -93,7 +92,6 @@ public:
 		}
 	};
 
-
 	void clear()
 	{
 		rb_tree_node_cmp_f u = tree->cmp;
@@ -112,7 +110,7 @@ public:
 
 	iterator end()
 	{
-		return endd;
+		return _end;
 	}
 
 	int size() {
@@ -139,12 +137,12 @@ public:
 		return res;
 	}
 
-	//~map() { rb_tree_dealloc(tree, NULL); };
+	~map() { rb_tree_dealloc(tree, NULL); };
 
 	map() { tree = rb_tree_create(memcmp<_Key, _Ty>); };
 
 	void set_cmp(rb_tree_node_cmp_f z) { if (tree) rb_tree_dealloc(tree, NULL);  tree = rb_tree_create(z); };
 private:
-	iterator endd = iterator(0);
+	iterator _end = iterator(0);
 };
 #endif

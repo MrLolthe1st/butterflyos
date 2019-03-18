@@ -9,6 +9,7 @@
 #include "std/trees.h"
 #include "std/map.h"
 #include "includes/storage/drives.h"
+#include "usb/usbd.h"
 int main()
 {
 	clear_screen();
@@ -17,13 +18,11 @@ int main()
 	storages_init();
 	PciInit();
 	drives_init();
-	printf("\n");
 	for (;;) {
 		Key z = keys_queue.get();
 		if (z.keycode != 0 && z.pressed == 1)
-		{
 			print_char(z.keycode);
-		}
-		__asm__("hlt");
+		UsbPoll();
+		//__asm__("hlt");
 	}
 }

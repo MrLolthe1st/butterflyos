@@ -15,4 +15,6 @@ __asm__(#func ": \npusha \n call __"#func " \n movb $0x20, %al \n outb %al, $0x2
 extern "C" void _## func()
 void init_idt();
 void inst(unsigned char interruptID, void * address, unsigned char flags);
+extern long long time1024;
+void Wait(int cnt);
 #endif

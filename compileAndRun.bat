@@ -28,12 +28,14 @@ if '%errorlevel%' NEQ '0' (
     pushd "%CD%"
     CD /D "%~dp0"
 :--------------------------------------    
-
+drive_add 0 if=none,id=usbstick1,file=images\q.img
+device_add usb-storage,bus=ehci.0,drive=usbstick1
 @echo on
 call compile.bat
 copy binaries\startup A:\STARTUP
 sync64 A:
 copy images\disk.img images\boot.img
+qemu-system-x86_64.exe -m 92 -net nic,model=rtl8139   -drive if=none,id=usbstick,file=images\boot.img -usb -device usb-ehci,id=ehci -device usb-storage,bus=ehci.0,drive=usbstick -no-reboot -vga std -D aa.txt -monitor stdio -device usb-mouse 
 #qemu-system-x86_64.exe -m 30 -hdc images\boot.img
-qemu-system-x86_64.exe -trace usb_host -smp cpus=2,cores=2 -m 60 -drive id=disk,file=images\boot.img,if=none -device ahci,id=ahci -device ide-drive,drive=disk,bus=ahci.0  -no-reboot -vga std -D aa.txt -monitor stdio -netdev user,id=n1,ipv6=off -device e1000,netdev=n1,mac=52:54:98:76:54:32 -usbdevice mouse
+#qemu-system-x86_64.exe -trace usb_host -smp cpus=2,cores=2 -m 60 -drive id=disk,file=images\boot.img,if=none -device ahci,id=ahci -device ide-drive,drive=disk,bus=ahci.0  -no-reboot -vga std -D aa.txt -monitor stdio -netdev user,id=n1,ipv6=off -device e1000,netdev=n1,mac=52:54:98:76:54:32 -usbdevice mouse
 pause

@@ -25,4 +25,6 @@ int gethex(int *vp, char *p, int n);
 int printf(const char * str, ...);
 #include "memory/memory.h"
 #include "target.h"
+void *memcpy(void *dest, const void *source, size_t count);
+void *memset(void *buf, int ch, size_t count);
 #endif

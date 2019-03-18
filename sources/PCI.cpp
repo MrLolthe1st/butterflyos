@@ -398,6 +398,7 @@ static void PciVisit(unsigned int bus, unsigned int dev, unsigned int func)
 			}
 		}
 	}
+	_ehci_init(id, &info);
 	/*print_int(info.classCode, 10);
 	print_char(':');
 	print_int(info.subclass, 10);
