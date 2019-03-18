@@ -18,6 +18,7 @@ int main()
 	storages_init();
 	PciInit();
 	drives_init();
+	printf(".");
 	for (;;) {
 		Key z = keys_queue.get();
 		if (z.keycode != 0 && z.pressed == 1)

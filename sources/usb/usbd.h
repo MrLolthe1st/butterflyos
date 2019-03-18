@@ -342,5 +342,10 @@ void UsbService();
 void UsbPoll();
  bool UsbDevInit(UsbDevice *dev);
 UsbDevice *UsbDevCreate();
+bool UsbDevRequest(UsbDevice *dev,
+	unsigned int type, unsigned int request,
+	unsigned int value, unsigned int index,
+	unsigned int len, void *data);
 #include "ehci.h"
+#include "hub.h"
 #endif

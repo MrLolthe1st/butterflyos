@@ -1,8 +1,6 @@
 #ifndef _PCI_H
 #define _PCI_H (1)
 #include "ports.h"
-#include "storage/storage.h"
-#include "storage/ahci.h"
 
 #define PCI_MAKE_ID(bus, dev, func)     ((bus) << 16) | ((dev) << 11) | ((func) << 8)
 
@@ -310,5 +308,7 @@ static void PciReadBar(unsigned int id, unsigned int index, unsigned int *addres
 
 
 
+#include "storage/storage.h"
+#include "storage/ahci.h"
 #include "../usb/usbd.h"
 #endif // !_PCI_H

@@ -370,11 +370,10 @@ bool UsbDevInit(UsbDevice *dev)
 		}
 		//_usbhubinit(dev);
 		//_UsbMouseInit(dev); _UsbKbdInit(dev);
-		
+		usb_hub_init(dev);
 		if (pickedIntfDesc->intfClass == 8 && pickedEndpDesc->attributes)
 		{
-
-			//	_storageInit(dev);
+			usb_storage_init(dev);
 		}
 	}
 

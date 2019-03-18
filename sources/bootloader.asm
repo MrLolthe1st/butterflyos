@@ -142,7 +142,9 @@ bsFileSystemName                DB      "FAT32   "      ; 0x52
 start:
 		;mov [0x7c00+bsDriveNumber],dl
         cld
-
+		;jmp qqqqq
+;times 15 db 0
+;	qqqqq:*/
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; How much RAM is there? ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -198,6 +200,9 @@ RootDirReadContinue:
         push    esi                     ; save esi=next cluster # of root dir
         pushf                           ; save carry="not last cluster" flag
 
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Look for the COM/EXE file to load and run ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -224,6 +229,8 @@ RootDirReadContinue:
 ;; Output: ESI = cluster number          ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+
 FindName:
         mov     cx, 11
 FindNameCycle:
@@ -234,14 +241,17 @@ FindNameNotEnd:
         pusha
         repe    cmpsb
         popa
+	
         je      FindNameFound
         add     di, 32
         dec     dx
         jnz     FindNameCycle           ; next root entry
+		
         popf                            ; restore carry="not last cluster" flag
         pop     esi                     ; restore esi=next cluster # of root dir
         jc      RootDirReadContinue     ; continue to the next root dir cluster
         jmp     ErrFind                 ; end of root directory (dir end reached)
+		
 FindNameFound:
         push    word [es:di+14h]
         push    word [es:di+1Ah]
@@ -250,9 +260,12 @@ FindNameFound:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load the entire file ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+jmp zzzq
+		dw 0x000000
+		zzzq:
       push ax
 		mov ax,0x800
+		
 		mov es,ax
 		pop ax
 		;stc

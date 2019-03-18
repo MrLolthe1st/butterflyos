@@ -226,9 +226,9 @@ typedef struct EhciTD
 
 typedef struct EhciQH
 {
-	u32 qhlp;       // Queue Head Horizontal Link Pointer
-	u32 ch;         // Endpoint Characteristics
-	u32 caps;       // Endpoint Capabilities
+	volatile u32 qhlp;       // Queue Head Horizontal Link Pointer
+	volatile u32 ch;         // Endpoint Characteristics
+	volatile u32 caps;       // Endpoint Capabilities
 	volatile u32 curLink;
 
 	// matches a transfer descriptor

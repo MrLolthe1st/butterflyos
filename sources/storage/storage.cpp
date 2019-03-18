@@ -16,7 +16,8 @@ int disk_storage::read(long long LBA, short count, void * buffer)
 		return ((ATA_Drive*)this->device)->read(LBA, count, buffer);
 	case STORAGE_AHCI:
 		return ((AHCI_Drive*)this->device)->read(LBA, count, buffer);
-		break;
+	case STORAGE_USB:
+		return ((usb_mass_storage*)this->device)->read(LBA, count, buffer);
 	default:
 		break;
 	}
@@ -32,6 +33,8 @@ int disk_storage::write(long long LBA, short count, void * buffer)
 		return ((ATA_Drive*)this->device)->write(LBA, count, buffer);
 	case STORAGE_AHCI:
 		return ((AHCI_Drive*)this->device)->write(LBA, count, buffer);
+	case STORAGE_USB:
+		return ((usb_mass_storage*)this->device)->write(LBA, count, buffer);
 	default:
 		break;
 	}

@@ -1,4 +1,5 @@
 #include "includes/interrupts.h"
+
 #define IDT_ADDRESS 0x9000
 #define IDT_RANGE 0x9800
 #define CODE_SEGMENT 0x08
@@ -29,8 +30,8 @@ void int_l() {
 long long time = 0;
 IRQ_HANDLER(pit_timer)
 {
-	time++;
-	if (pressed_keys != 0 && (time - last_press) > 1)
+	time++; 
+	if (pressed_keys != 0 && (time - last_press) > 2)
 	{
 		keys_queue.insert(Key(pressed_keys, 1));
 		last_press = time;
@@ -52,11 +53,12 @@ IDT_HANDLER(some)
 IRQ_HANDLER(some1)
 {
 
+	printf("&");
 }
 
 IRQ_HANDLER_PIC2(some2)
 {
-
+	printf("~");
 }
 long long time1024 = 0;
 IRQ_HANDLER_PIC2(rtc_time)
@@ -67,9 +69,14 @@ IRQ_HANDLER_PIC2(rtc_time)
 }
 
 void Wait(int cnt) {
-	long long t = time;
-	int a;
-	while (time1024 - t < (long long)cnt);
+	long long t = time1024; int a;
+	//cnt *= 10;
+	//printf("!%d %d!", cnt, (int)time1024);
+	while ((time1024 - t) < cnt) {
+		//printf("1");
+		a++;
+	}
+
 }
 void init_idt()
 {

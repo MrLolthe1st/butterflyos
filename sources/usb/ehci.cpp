@@ -136,11 +136,12 @@ static uint EhciResetPort(EhciController *hc, uint port)
 	volatile u32 *reg = &hc->opRegs->ports[port];
 	// Reset the port
 	*reg |= (1 << 12);
-	Wait(102);
+	//printf("\n~");
+	Wait(12);
+	//	EhciPortClr(reg, 1);
 	EhciPortSet(reg, PORT_RESET);
 	Wait(102);
 	EhciPortClr(reg, PORT_RESET);
-
 	// Wait 100ms for port to enable (TODO - what is appropriate length of time?)
 	uint status = 0;
 	int oo = 0;
@@ -151,7 +152,8 @@ static uint EhciResetPort(EhciController *hc, uint port)
 
 		// Get current status
 		status = *reg;
-		if (status & (1 << 10) && oo == 0)
+		//printf("[%x]", status);
+		if (status & (3 << 10) && oo == 0)
 		{
 			*reg |= ((1 << 13));
 			oo = 1;
@@ -255,9 +257,10 @@ static void EhciInitQH(EhciQH *qh, UsbTransfer *t, EhciTD *td, UsbDevice *parent
 
 	qh->ch = ch;
 	qh->caps = caps;
-
-	qh->tdHead = (u32)(uintptr_t)td;
-	qh->nextLink = (u32)(uintptr_t)td;
+	//MWIR((size_t)&qh->tdHead, 0, (unsigned int)td | PTR_ITD);
+	//MWIR((size_t)&qh->nextLink, 0, (unsigned int)td);
+	qh->tdHead = (size_t)td;
+	qh->nextLink = (size_t)td;
 	qh->token = 0;
 }
 
@@ -267,6 +270,7 @@ static void EhciProcessQH(EhciController *hc, EhciQH *qh)
 	UsbTransfer *t = qh->transfer;
 	char z = *(char*)(VIDEO_SEG);
 	*(char*)(VIDEO_SEG) = z ^ 0;
+
 	if (qh->token & TD_TOK_HALTED)
 	{
 		t->success = false;
@@ -411,6 +415,7 @@ static void EhciDevControl(UsbDevice *dev, UsbTransfer *t)
 
 	// Wait until queue has been processed
 	EhciInsertAsyncQH(hc->asyncQH, qh);
+
 	EhciWaitForQH(hc, qh);
 }
 
@@ -561,6 +566,31 @@ static void EhciControllerPoll(UsbController *controller)
 		}
 	}
 }
+
+void reset_hc(EhciController * hc)
+{
+	// Read the Command register
+	uint cmd = ROR(hc, usbCmdO);
+	// Write it back, setting bit 2 (the Reset bit) 
+	//  and making sure the two schedule Enable bits are clear.
+	WRITEREG(hc, usbCmdO, 2 | cmd & ~(CMD_ASE | CMD_PSE | CMD_RS));
+	// A small delay here would be good.  You don't want to read
+	//  the register before it has a chance to actually set the bit
+	ROR(hc, usbCmdO);
+	// Now wait for the controller to clear the reset bit.
+	// Note: A timeout would be a good idea too in case the bit
+	//  never becomes clear.  (Bad controller: Bad address: etc.) (See note 1 below)
+	while (ROR(hc, usbCmdO) & 2);
+	// Again, a small delay here would be good to allow the
+	//  reset to actually become complete.
+	ROR(hc, usbCmdO);
+	// wait for the halted bit to become set
+	// again, see note 1 below)
+	while (!(ROR(hc, usbStsO) & STS_HCHALTED));
+	Wait(109);
+
+}
+
 // ------------------------------------------------------------------------------------------------
 void _ehci_init(uint id, PciDeviceInfo *info)
 {
@@ -589,30 +619,16 @@ void _ehci_init(uint id, PciDeviceInfo *info)
 	hc->ehcibase2 = (uint)bar.u.address;
 	hc->opRegs = (EhciOpRegs *)(uintptr_t)((size_t)bar.u.address + (size_t)hc->capRegs->capLength);
 	hc->ehcibase = (uint)&hc->opRegs->usbCmd;
-	// Read the Command register
-	uint cmd = ROR(hc, usbCmdO);
-	// Write it back, setting bit 2 (the Reset bit) 
-	//  and making sure the two schedule Enable bits are clear.
-	WRITEREG(hc, usbCmdO, 2 | cmd & ~(CMD_ASE | CMD_PSE));
-	// A small delay here would be good.  You don't want to read
-	//  the register before it has a chance to actually set the bit
-	ROR(hc, usbCmdO);
-	// Now wait for the controller to clear the reset bit.
-	// Note: A timeout would be a good idea too in case the bit
-	//  never becomes clear.  (Bad controller: Bad address: etc.) (See note 1 below)
-	while (ROR(hc, usbCmdO) & 2);
-	// Again, a small delay here would be good to allow the
-	//  reset to actually become complete.
-	ROR(hc, usbCmdO);
-	// wait for the halted bit to become set
-	// again, see note 1 below)
-	while (!(ROR(hc, usbStsO) & STS_HCHALTED));
+	WRITEREG(hc, usbCmdO, 0);
 	hc->frameList = (u32 *)malloc(1024 * sizeof(u32) + 8192 * 4);
 	hc->frameList = (unsigned int *)((((size_t)hc->frameList) / 16384) * 16384 + 16384);
 	hc->qhPool = (EhciQH *)malloc(sizeof(EhciQH) * MAX_QH + 8192 * 4);
 	hc->tdPool = (EhciTD *)malloc(sizeof(EhciTD) * MAX_TD + 8192 * 4);
 	hc->qhPool = (EhciQH *)((((size_t)hc->qhPool) / 16384) * 16384 + 16384);
 	hc->tdPool = (EhciTD *)((((size_t)hc->tdPool) / 16384) * 16384 + 16384);
+	memset(hc->qhPool, 0, sizeof(EhciQH) * MAX_QH);
+	memset(hc->tdPool, 0, sizeof(EhciTD) * MAX_TD);
+	reset_hc(hc);
 	// Asynchronous queue setup
 	EhciQH *qh = EhciAllocQH(hc);
 	qh->qhlp = (u32)(uintptr_t)qh | PTR_QH;
@@ -674,6 +690,7 @@ void _ehci_init(uint id, PciDeviceInfo *info)
 		}
 	}
 
+	//reset_hc(hc);
 	// Disable interrupts
 	MWIR(hc->ehcibase, usbIntrO, 0);
 	// Setup frame list
@@ -685,11 +702,12 @@ void _ehci_init(uint id, PciDeviceInfo *info)
 	//Clear status
 	WRITEREG(hc, usbStsO, ~0x3F);
 	// Enable controller
+	WRITEREG(hc, usbCmdO, CMD_RS);
 	WRITEREG(hc, usbCmdO, (8 << CMD_ITC_SHIFT) | CMD_PSE | CMD_ASE | CMD_RS);
-	while (ROR(hc, usbStsO)&STS_HCHALTED);
-
+	while (ROR(hc, usbStsO) & STS_HCHALTED);
 	// Configure all devices to be managed by the EHCI
 	WRITEREG(hc, configFlagO, 1);
+	//	Wait(512);
 	printf("Device configured. Probing ports...\n");
 	// Probe devices
 	EhciProbe(hc);
