@@ -21,6 +21,7 @@ UsbDevice *UsbDevCreate()
 		dev->addr = 0;
 		dev->maxPacketSize = 0;
 		dev->hcControl = 0;
+		dev->onDisconnect = 0;
 		dev->hcIntr = 0;
 		dev->drvPoll = 0;
 
@@ -196,7 +197,7 @@ bool UsbDevInit(UsbDevice *dev)
 		8, &devDesc))
 	{
 		return false;
-	}//UsbPrintDeviceDesc(&devDesc);
+	}
 	dev->maxPacketSize = devDesc.maxPacketSize;
 	// Set address
 	unsigned int addr = ++s_nextUsbAddr;
@@ -209,9 +210,9 @@ bool UsbDevInit(UsbDevice *dev)
 	}
 
 	dev->addr = addr;
-	Wait(102);    // Set address recovery time
-
-		// Read entire descriptor
+	Wait(10);
+	// Set address recovery time
+	// Read entire descriptor
 	if (!UsbDevRequest(dev,
 		RT_DEV_TO_HOST | RT_STANDARD | RT_DEV,
 		REQ_GET_DESC, (USB_DESC_DEVICE << 8) | 0, 0,

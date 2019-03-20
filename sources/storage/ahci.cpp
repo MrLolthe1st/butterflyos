@@ -13,7 +13,7 @@ void port_rebase(HBA_PORT *port, int portno)
 					// Command list entry size = 32
 					// Command list entry maxim count = 32
 					// Command list maxim size = 32*32 = 1K per port
-	port->clb = (uint)malloc(1024 + 4196);
+	port->clb = (uint) malloc(1024 + 4196);
 	port->clb = (((uint)port->clb) / 2048) * 2048 + 2048;
 	port->clbu = 0;
 	memset((void*)(port->clb), 0, 1024);
@@ -418,7 +418,7 @@ void ahci_probe_port(void *abar_temp1)
 						ad->model[j * 2] = aa;
 					}
 					ad->model[40] = 0;
-					printf("%dmbytes, %s\n", (int)ad->serctors_count >> 11, ad->model);
+					printf("AHCI: %dmbytes, %s\n", (int)ad->serctors_count >> 11, ad->model);
 				}
 				free(buf);
 			}

@@ -184,7 +184,7 @@ typedef struct EhciTD
 	// internal fields
 	u32 tdNext;
 	u32 active;
-	u8 pad[68];
+	u8 pad[68 + 128];
 } EhciTD;
 
 // TD Link Pointer
@@ -244,7 +244,7 @@ typedef struct EhciQH
 	u32 tdHead;
 	u32 active;
 	u32 queries;
-	u8 pad[36];
+	u8 pad[36 + 128];
 } EhciQH;
 
 // Endpoint Characteristics

@@ -2,33 +2,41 @@
 #include "usbd.h"
 #include "../includes/string.h"
 #include "../includes/interrupts.h"
+//Turn off optimizations: MMIO
 #pragma GCC push_options
 #pragma GCC optimize("O0")
-
 #define uint unsigned int
+
+// ------------------------------------------------------------------------------------------------
 bit32u MMIOREAD(const size_t base, const size_t offset) {
 	return *((volatile bit32u *)(base + offset));
 }
 
+// ------------------------------------------------------------------------------------------------
 void MWIR(const size_t base, const size_t offset, const bit32u val) {
 	volatile bit32u *ptr = (volatile bit32u *)(base + offset);
 	*ptr = val;
 }
 
+// ------------------------------------------------------------------------------------------------
 void WRITEREG(EhciController * hc, uint reg, uint val)
 {
 	MWIR(hc->ehcibase, reg, val);
 }
 
+// ------------------------------------------------------------------------------------------------
 uint ROR(EhciController * hc, uint reg)
 {
 	return MMIOREAD(hc->ehcibase, reg);
 }
 
+// ------------------------------------------------------------------------------------------------
 void WCR(EhciController * hc, uint reg, uint val)
 {
 	MWIR(hc->ehcibase2, reg, val);
 }
+
+// ------------------------------------------------------------------------------------------------
 uint RCR(EhciController * hc, uint reg)
 {
 	return MMIOREAD(hc->ehcibase2, reg);
@@ -81,14 +89,15 @@ static void EhciFreeQH(EhciQH *qh)
 {
 	qh->active = 0;
 }
+
 extern "C" {
 	// ------------------------------------------------------------------------------------------------
 	static void EhciInsertAsyncQH(EhciQH *list, EhciQH *qh)
 	{
 		EhciQH *end = LinkData(list->qhLink.prev, EhciQH, qhLink);
 
-		qh->qhlp = (u32)(uintptr_t)list | PTR_QH;
-		end->qhlp = (u32)(uintptr_t)qh | PTR_QH;
+		qh->qhlp = (size_t)list | PTR_QH;
+		end->qhlp = (size_t)qh | PTR_QH;
 
 		LinkBefore(&list->qhLink, &qh->qhLink);
 	}
@@ -135,28 +144,22 @@ static uint EhciResetPort(EhciController *hc, uint port)
 {
 	volatile u32 *reg = &hc->opRegs->ports[port];
 	// Reset the port
-	*reg |= (1 << 12);
-	//printf("\n~");
-	Wait(12);
-	//	EhciPortClr(reg, 1);
+	EhciPortSet(reg, PORT_POWER);
+	Wait(10);
 	EhciPortSet(reg, PORT_RESET);
-	Wait(102);
+	Wait(103);
 	EhciPortClr(reg, PORT_RESET);
-	// Wait 100ms for port to enable (TODO - what is appropriate length of time?)
-	uint status = 0;
-	int oo = 0;
+	unsigned int status = 0;
+	char powner_red = 0;
+	Wait(10);
 	for (uint i = 0; i < 5; ++i)
 	{
-		// Delay
-		Wait(31);
-
 		// Get current status
 		status = *reg;
-		//printf("[%x]", status);
-		if (status & (3 << 10) && oo == 0)
+		if (status & (3 << 10) && !powner_red)
 		{
 			*reg |= ((1 << 13));
-			oo = 1;
+			powner_red = 1;
 			i = 0;
 		}
 		// Check if device is attached to port
@@ -172,6 +175,8 @@ static uint EhciResetPort(EhciController *hc, uint port)
 		// Check if device is enabled
 		if (status & PORT_ENABLE)
 			break;
+		// Delay
+		Wait(21);
 	}
 	return status;
 }
@@ -183,8 +188,8 @@ static void EhciInitTD(EhciTD *td, EhciTD *prev,
 {
 	if (prev)
 	{
-		prev->link = (u32)(uintptr_t)td;
-		prev->tdNext = (u32)(uintptr_t)td;
+		prev->link = (size_t)td | PTR_QH;
+		prev->tdNext = (size_t)td;
 	}
 
 	td->link = PTR_TERMINATE;
@@ -260,17 +265,37 @@ static void EhciInitQH(EhciQH *qh, UsbTransfer *t, EhciTD *td, UsbDevice *parent
 	//MWIR((size_t)&qh->tdHead, 0, (unsigned int)td | PTR_ITD);
 	//MWIR((size_t)&qh->nextLink, 0, (unsigned int)td);
 	qh->tdHead = (size_t)td;
+	//qh->altLink = (size_t)td;
+	//qh->curLink = (size_t)td;
 	qh->nextLink = (size_t)td;
 	qh->token = 0;
 }
 
+
+void EHCIPRINTTD(EhciTD * td)
+{
+	while (td)
+	{
+		printf("[%x:%x]", td, td->token);
+		EhciTD *next = (EhciTD *)(uintptr_t)td->tdNext;
+		td = next;
+	}
+	printf("\n");
+}
 // ------------------------------------------------------------------------------------------------
 static void EhciProcessQH(EhciController *hc, EhciQH *qh)
 {
 	UsbTransfer *t = qh->transfer;
 	char z = *(char*)(VIDEO_SEG);
 	*(char*)(VIDEO_SEG) = z ^ 0;
+	//WRITEREG(hc, usbStsO, 0);
+	Wait(200);
+	printf("[%x,%x,%x]", hc->opRegs->usbSts, hc->opRegs->asyncListAddr, qh->nextLink);
+	Wait(90);
 
+	//t->success = true;
+	//t->complete = true;
+	//EHCIPRINTTD((EhciTD*)qh->tdHead);
 	if (qh->token & TD_TOK_HALTED)
 	{
 		t->success = false;
@@ -334,13 +359,35 @@ static void EhciProcessQH(EhciController *hc, EhciQH *qh)
 // ------------------------------------------------------------------------------------------------
 static void EhciWaitForQH(EhciController *hc, EhciQH *qh)
 {
-
+	long long start_time = time1024;
 	UsbTransfer *t = qh->transfer;
-	while ((!t->complete))
+	while (!t->complete && time1024 - start_time < 5120)
 	{
 		EhciProcessQH(hc, qh);
 	}
+	if (time1024 - start_time >= 512)
+	{
+		t->complete = true;
+		t->success = false;
+	}
 
+}
+void EhciPrintQH(EhciQH *qh, EhciQH * strt, int c = 0)
+{
+	if (!qh) return;
+	qh = (EhciQH*)((size_t)qh&(~7));
+	if (c > 0 && qh == strt) return;
+	printf("qh=0x%08x;", qh);
+	printf(" qhlp=0x%08x\n", qh->qhlp);
+	printf(" ch=0x%08x;", qh->ch);
+	printf(" caps=0x%08x\n", qh->caps);
+	printf(" curLink=0x%08x\n", qh->curLink);
+	EHCIPRINTTD((EhciTD*)qh->tdHead);
+	//	printf(" nextLink=0x%08x\n", qh->nextLink);
+	//	printf(" altLink=0x%08x\n", qh->altLink);
+		//printf(" token=0x%08x\n", qh->token);
+		//printf(" buffer=0x%08x\n", qh->buffer[0]);
+	EhciPrintQH((EhciQH*)qh->qhlp, strt, c + 1);
 }
 // ------------------------------------------------------------------------------------------------
 static void EhciDevControl(UsbDevice *dev, UsbTransfer *t)
@@ -351,6 +398,7 @@ static void EhciDevControl(UsbDevice *dev, UsbTransfer *t)
 	// Determine transfer properties
 	uint speed = dev->speed;
 	uint addr = dev->addr;
+	printf("~@@@%d@", addr);
 	uint maxSize = dev->maxPacketSize;
 	uint type = req->type;
 	uint len = req->len;
@@ -377,6 +425,7 @@ static void EhciDevControl(UsbDevice *dev, UsbTransfer *t)
 
 	u8 *it = (u8 *)t->data;
 	u8 *end = it + len;
+	//printf("*******%d**", len);
 	while (it < end)
 	{
 		td = EhciAllocTD(hc);
@@ -408,13 +457,16 @@ static void EhciDevControl(UsbDevice *dev, UsbTransfer *t)
 	toggle = 1;
 	packetType = type & RT_DEV_TO_HOST ? USB_PACKET_OUT : USB_PACKET_IN;
 	EhciInitTD(td, prev, toggle, packetType, 0, 0);
-
+zww:
 	// Initialize queue head
 	EhciQH *qh = EhciAllocQH(hc);
 	EhciInitQH(qh, t, head, dev->parent, false, speed, addr, 0, maxSize);
-
+	//unsigned int cmd = ROR(hc, usbCmdO);
+	//WRITEREG(hc, usbCmdO, cmd | 0x40);
 	// Wait until queue has been processed
 	EhciInsertAsyncQH(hc->asyncQH, qh);
+	//hc->asyncQH->nextLink = qh->nextLink;
+	EhciPrintQH(hc->asyncQH, hc->asyncQH);
 
 	EhciWaitForQH(hc, qh);
 }
@@ -470,8 +522,8 @@ void probeEhciPort(EhciController *hc, uint port)
 	if (status & PORT_ENABLE)
 	{
 		uint speed = USB_HIGH_SPEED;
-		printf("Detected device on port #%x\n", port);
-		Wait(102);
+		Wait(1);
+		printf("USB: ");
 		UsbDevice *dev = UsbDevCreate();
 		if (dev)
 		{
@@ -480,13 +532,12 @@ void probeEhciPort(EhciController *hc, uint port)
 			dev->port = port;
 			dev->speed = speed;
 			dev->maxPacketSize = 8;
-
-
 			dev->hcControl = EhciDevControl;
 			dev->hcIntr = EhciDevIntr;
 
 			if (!UsbDevInit(dev))
 			{
+				printf("Stall.\n");
 				// TODO - cleanup
 			}
 		}
@@ -534,7 +585,7 @@ static void EhciControllerPoll(UsbController *controller)
 		if (status & 2 && !(status & 1))
 		{
 			//Device disconnected
-			printf("USB device has disconnected from EHCI!\n");
+
 			UsbDevice * cur = g_usbDeviceList, *ls = 0;
 			//Clear Connection change bit
 			EhciPortClr(reg, PORT_CONNECTION_CHANGE);
@@ -542,6 +593,7 @@ static void EhciControllerPoll(UsbController *controller)
 			{
 				if (cur->port == port && (uint)cur->hc == (uint)hc)
 				{
+					printf("USB device has disconnected from EHCI!\n");
 					if (cur->onDisconnect)
 						cur->onDisconnect(cur);
 					if (ls)
@@ -587,7 +639,7 @@ void reset_hc(EhciController * hc)
 	// wait for the halted bit to become set
 	// again, see note 1 below)
 	while (!(ROR(hc, usbStsO) & STS_HCHALTED));
-	Wait(109);
+	Wait(11);
 
 }
 
@@ -599,11 +651,11 @@ void _ehci_init(uint id, PciDeviceInfo *info)
 	{
 		return;
 	}
-	if (sizeof(EhciQH) != 128)
+	/*if (sizeof(EhciQH) != 128)
 	{
 		printf("Unexpected EhciQH size: %d\n", sizeof(EhciQH));
 		return;
-	}
+	}*/
 	printf("Initializing EHCI\n");
 	// Base I/O Address
 	PciBar bar;
@@ -619,19 +671,20 @@ void _ehci_init(uint id, PciDeviceInfo *info)
 	hc->ehcibase2 = (uint)bar.u.address;
 	hc->opRegs = (EhciOpRegs *)(uintptr_t)((size_t)bar.u.address + (size_t)hc->capRegs->capLength);
 	hc->ehcibase = (uint)&hc->opRegs->usbCmd;
-	WRITEREG(hc, usbCmdO, 0);
-	hc->frameList = (u32 *)malloc(1024 * sizeof(u32) + 8192 * 4);
-	hc->frameList = (unsigned int *)((((size_t)hc->frameList) / 16384) * 16384 + 16384);
-	hc->qhPool = (EhciQH *)malloc(sizeof(EhciQH) * MAX_QH + 8192 * 4);
-	hc->tdPool = (EhciTD *)malloc(sizeof(EhciTD) * MAX_TD + 8192 * 4);
-	hc->qhPool = (EhciQH *)((((size_t)hc->qhPool) / 16384) * 16384 + 16384);
-	hc->tdPool = (EhciTD *)((((size_t)hc->tdPool) / 16384) * 16384 + 16384);
+	//WRITEREG(hc, usbCmdO, 0);
+	int align = 4096;
+	hc->frameList = (u32 *)malloc(1024 * sizeof(u32) + align * 2);
+	hc->frameList = (unsigned int *)((((size_t)hc->frameList) / align) * align + align);
+	hc->qhPool = (EhciQH *)malloc(sizeof(EhciQH) * MAX_QH + align * 2);
+	hc->tdPool = (EhciTD *)malloc(sizeof(EhciTD) * MAX_TD + align * 2);
+	hc->qhPool = (EhciQH *)((((size_t)hc->qhPool) / align) * align + align);
+	hc->tdPool = (EhciTD *)((((size_t)hc->tdPool) / align) * align + align);
 	memset(hc->qhPool, 0, sizeof(EhciQH) * MAX_QH);
 	memset(hc->tdPool, 0, sizeof(EhciTD) * MAX_TD);
 	reset_hc(hc);
 	// Asynchronous queue setup
 	EhciQH *qh = EhciAllocQH(hc);
-	qh->qhlp = (u32)(uintptr_t)qh | PTR_QH;
+	qh->qhlp = (size_t)qh | PTR_QH;
 	qh->ch = QH_CH_H;
 	qh->caps = 0;
 	qh->curLink = 0;
@@ -692,23 +745,23 @@ void _ehci_init(uint id, PciDeviceInfo *info)
 
 	//reset_hc(hc);
 	// Disable interrupts
-	MWIR(hc->ehcibase, usbIntrO, 0);
+	MWIR(hc->ehcibase, usbIntrO, 0x3f);
 	// Setup frame list
 	WRITEREG(hc, frameIndexO, 0);
 	WRITEREG(hc, periodicListBaseO, (u32)(uintptr_t)hc->frameList);
-	WRITEREG(hc, asyncListAddrO, (u32)(uintptr_t)hc->asyncQH);
+	WRITEREG(hc, asyncListAddrO, (size_t)hc->asyncQH);
 	WRITEREG(hc, ctrlDsSegmentO, 0);
-	Wait(100);
+	Wait(10);
 	//Clear status
-	WRITEREG(hc, usbStsO, ~0x3F);
+	WRITEREG(hc, usbStsO, 0x1020);
 	// Enable controller
 	WRITEREG(hc, usbCmdO, CMD_RS);
 	WRITEREG(hc, usbCmdO, (8 << CMD_ITC_SHIFT) | CMD_PSE | CMD_ASE | CMD_RS);
 	while (ROR(hc, usbStsO) & STS_HCHALTED);
+	//unsigned int sts = ROR(hc, usbStsO);
+	//WRITEREG(hc, usbStsO, sts | 0x20);
 	// Configure all devices to be managed by the EHCI
-	WRITEREG(hc, configFlagO, 1);
-	//	Wait(512);
-	printf("Device configured. Probing ports...\n");
+	WRITEREG(hc, configFlagO, 0);
 	// Probe devices
 	EhciProbe(hc);
 
