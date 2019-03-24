@@ -289,9 +289,9 @@ static void EhciProcessQH(EhciController *hc, EhciQH *qh)
 	char z = *(char*)(VIDEO_SEG);
 	*(char*)(VIDEO_SEG) = z ^ 0;
 	//WRITEREG(hc, usbStsO, 0);
-	Wait(200);
-	printf("[%x,%x,%x]", hc->opRegs->usbSts, hc->opRegs->asyncListAddr, qh->nextLink);
-	Wait(90);
+//	Wait(200);
+	//printf("[%x,%x,%x]", hc->opRegs->usbSts, hc->opRegs->asyncListAddr, qh->nextLink);
+	//Wait(90);
 
 	//t->success = true;
 	//t->complete = true;
@@ -361,7 +361,7 @@ static void EhciWaitForQH(EhciController *hc, EhciQH *qh)
 {
 	long long start_time = time1024;
 	UsbTransfer *t = qh->transfer;
-	while (!t->complete && time1024 - start_time < 5120)
+	while (!t->complete && time1024 - start_time < 510)
 	{
 		EhciProcessQH(hc, qh);
 	}
@@ -398,7 +398,7 @@ static void EhciDevControl(UsbDevice *dev, UsbTransfer *t)
 	// Determine transfer properties
 	uint speed = dev->speed;
 	uint addr = dev->addr;
-	printf("~@@@%d@", addr);
+	//printf("~@@@%d@", addr);
 	uint maxSize = dev->maxPacketSize;
 	uint type = req->type;
 	uint len = req->len;
@@ -466,7 +466,7 @@ zww:
 	// Wait until queue has been processed
 	EhciInsertAsyncQH(hc->asyncQH, qh);
 	//hc->asyncQH->nextLink = qh->nextLink;
-	EhciPrintQH(hc->asyncQH, hc->asyncQH);
+//	EhciPrintQH(hc->asyncQH, hc->asyncQH);
 
 	EhciWaitForQH(hc, qh);
 }

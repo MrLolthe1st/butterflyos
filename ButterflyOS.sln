@@ -10,6 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sources", "sources", "{196F
 		sources\caller.asm = sources\caller.asm
 		sources\interrupts.cpp = sources\interrupts.cpp
 		sources\kernel.cpp = sources\kernel.cpp
+		sources\link.cpp = sources\link.cpp
+		sources\link.h = sources\link.h
+		sources\PCI.cpp = sources\PCI.cpp
 		sources\ports.cpp = sources\ports.cpp
 		sources\printf.cpp = sources\printf.cpp
 		sources\string.cpp = sources\string.cpp
@@ -19,6 +22,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "includes", "includes", "{FEA3EE59-A0BB-4D75-8832-3D25239FE52A}"
 	ProjectSection(SolutionItems) = preProject
 		sources\includes\interrupts.h = sources\includes\interrupts.h
+		sources\includes\PCI.h = sources\includes\PCI.h
 		sources\includes\ports.h = sources\includes\ports.h
 		sources\includes\string.h = sources\includes\string.h
 		sources\includes\target.h = sources\includes\target.h
@@ -27,7 +31,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "includes", "includes", "{FE
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "storage", "storage", "{4C4746F6-74A8-4ED4-99C2-C98A0394BAD2}"
 	ProjectSection(SolutionItems) = preProject
+		sources\storage\ahci.cpp = sources\storage\ahci.cpp
 		sources\storage\ata.cpp = sources\storage\ata.cpp
+		sources\storage\drives.cpp = sources\storage\drives.cpp
+		sources\storage\msd.cpp = sources\storage\msd.cpp
 		sources\storage\storage.cpp = sources\storage\storage.cpp
 	EndProjectSection
 EndProject
@@ -41,7 +48,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "memory", "memory", "{BDA179
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "storage", "storage", "{3528DC6D-DA9D-4F25-8BA9-24D50B223513}"
 	ProjectSection(SolutionItems) = preProject
+		sources\includes\storage\ahci.h = sources\includes\storage\ahci.h
 		sources\includes\storage\ata.h = sources\includes\storage\ata.h
+		sources\includes\storage\drives.h = sources\includes\storage\drives.h
+		sources\includes\storage\msd.h = sources\includes\storage\msd.h
 		sources\includes\storage\storage.h = sources\includes\storage\storage.h
 	EndProjectSection
 EndProject
@@ -49,6 +59,36 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "memory", "memory", "{104304
 	ProjectSection(SolutionItems) = preProject
 		sources\includes\memory\memory.h = sources\includes\memory\memory.h
 		sources\includes\memory\test.c = sources\includes\memory\test.c
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "input", "input", "{88A1BC14-6E5F-4AF0-89C8-05E920D38820}"
+	ProjectSection(SolutionItems) = preProject
+		sources\includes\input\input.h = sources\includes\input\input.h
+		sources\includes\input\ps2.h = sources\includes\input\ps2.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "input", "input", "{392E726F-33C5-4B75-8361-0395C8B69360}"
+	ProjectSection(SolutionItems) = preProject
+		sources\input\input.cpp = sources\input\input.cpp
+		sources\input\ps2.cpp = sources\input\ps2.cpp
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "std", "std", "{497623BA-6ACD-4041-B219-A55530BE3104}"
+	ProjectSection(SolutionItems) = preProject
+		sources\std\map.cpp = sources\std\map.cpp
+		sources\std\map.h = sources\std\map.h
+		sources\std\trees.cpp = sources\std\trees.cpp
+		sources\std\trees.h = sources\std\trees.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "usb", "usb", "{1A070B06-F10C-480D-9DFC-B36CA2555F98}"
+	ProjectSection(SolutionItems) = preProject
+		sources\usb\ehci.cpp = sources\usb\ehci.cpp
+		sources\usb\ehci.h = sources\usb\ehci.h
+		sources\usb\hub.cpp = sources\usb\hub.cpp
+		sources\usb\hub.h = sources\usb\hub.h
+		sources\usb\usbd.cpp = sources\usb\usbd.cpp
+		sources\usb\usbd.h = sources\usb\usbd.h
 	EndProjectSection
 EndProject
 Global
@@ -61,6 +101,10 @@ Global
 		{BDA179C2-ADA4-4F26-9886-00BB2D516BA8} = {196F4474-A1BD-4649-B7CB-C061D8696C1A}
 		{3528DC6D-DA9D-4F25-8BA9-24D50B223513} = {FEA3EE59-A0BB-4D75-8832-3D25239FE52A}
 		{1043043C-84C4-40A7-94AE-07F13F53DFD5} = {FEA3EE59-A0BB-4D75-8832-3D25239FE52A}
+		{88A1BC14-6E5F-4AF0-89C8-05E920D38820} = {FEA3EE59-A0BB-4D75-8832-3D25239FE52A}
+		{392E726F-33C5-4B75-8361-0395C8B69360} = {196F4474-A1BD-4649-B7CB-C061D8696C1A}
+		{497623BA-6ACD-4041-B219-A55530BE3104} = {196F4474-A1BD-4649-B7CB-C061D8696C1A}
+		{1A070B06-F10C-480D-9DFC-B36CA2555F98} = {196F4474-A1BD-4649-B7CB-C061D8696C1A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5DC93551-3919-4B4C-A385-ED5651EC2181}
