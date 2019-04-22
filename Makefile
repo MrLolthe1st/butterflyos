@@ -20,4 +20,4 @@ $(EXECUTABLE):
 	nasm $(SRCDIR)/boot.asm -o $(BINDIR)/startup
 	
 $(SOURCES1):
-	$(CC) $(CFLAGS) $(SRCDIR)/$*.cpp -o $(BINDIR)/$*.o
+	$(CC) $(CFLAGS) $(SRCDIR)/$*.cpp -o $(BINDIR)/$*.o -L "/sources/includes"
