@@ -1,6 +1,6 @@
 #include "../includes/storage/msd.h"
 #include "../includes/interrupts.h"
-
+#define DEBUG 1
 template<typename T>
 void printMem(T aa, size_t c)
 {
@@ -41,6 +41,7 @@ void usb_mass_storage::start_storage()
 	UsbTransfer *t = this->t;
 	UsbEndpoint * endpointIn = s->endpointIn, *endpointOut = s->endpointOut;
 	cbw_t * cbw = this->cbw; // (cbw_t*)malloc(33);
+	memset(cbw, 0, 31);
 	cbw->lun = 0;
 	cbw->tag = s->tag;
 	s->tag++;
@@ -106,7 +107,7 @@ long long usb_mass_storage::read_capacity()
 	UsbTransfer *t = s->t;
 	UsbEndpoint * endpointIn = s->endpointIn, *endpointOut = s->endpointOut;
 	cbw_t * cbw = this->cbw; // this->cbw;
-	cbw = (cbw_t*)((((size_t)cbw) / 32 + 1) * 32);
+	memset(cbw, 0, 31);
 	cbw->lun = 0;
 	cbw->sig = 0x43425355;
 	cbw->wcb_len = 10;
@@ -122,19 +123,21 @@ long long usb_mass_storage::read_capacity()
 	t->len = 0x1f;
 	t->complete = false;
 	t->success = false;
+	t->w = 1;
 #ifdef DEBUG
 	printf("ReadCapacity CBW\n");
 	printMem(cbw, 13);
 	printf("\n");
 #endif // DEBUG
 	dev->hcIntr(dev, t);
-	unsigned char res[8];
+	unsigned char res[8] = {};
 	t->endp = endpointIn;
 	t->req = 0;
 	t->data = &res;
 	t->len = 0x8;
 	t->complete = false;
 	t->success = false;
+	t->w = 1;
 	dev->hcIntr(dev, t);
 #ifdef DEBUG
 	printf("ReadCapacity DATA\n");
@@ -147,6 +150,7 @@ long long usb_mass_storage::read_capacity()
 	t->len = 13;
 	t->complete = false;
 	t->success = false;
+	t->w = 1;
 	dev->hcIntr(dev, t);
 #ifdef DEBUG
 	printf("ReadCapacity CSW\n");
@@ -161,11 +165,13 @@ long long usb_mass_storage::read_capacity()
 bool usb_mass_storage::request_sense()
 {
 	usb_mass_storage * s = this;
+	if (!clearHalt(s)) return false;
 	UsbDevice * dev = s->d;
 	UsbTransfer *t = s->t;
 	UsbEndpoint * endpointIn = s->endpointIn, *endpointOut = s->endpointOut;
 
 	cbw_t * cbw = this->cbw; // (cbw_t*)malloc(sizeof(cbw_t) + 20);
+	memset(cbw, 0, 31);
 	cbw->lun = 0;
 	cbw->tag = s->tag;
 	s->tag++;
@@ -276,6 +282,7 @@ bool usb_mass_storage::inquiry_request()
 	UsbTransfer *t = s->t;
 	UsbEndpoint * endpointIn = s->endpointIn, *endpointOut = s->endpointOut;
 	cbw_t * cbw = this->cbw; // (cbw_t*)malloc(33);
+	memset(cbw, 0, 31);
 	cbw->lun = 0;
 	cbw->tag = s->tag;
 	s->tag++;
@@ -379,7 +386,7 @@ bool usb_mass_storage::write(long long lba, short count, void * buf)
 	t->success = false;
 	t->w = 1;
 	dev->hcIntr(dev, t);
-	//	kprintf("{*%x}", lba);
+	//	printf("{*%x}", lba);
 	for (int i = 0; i < count*(s->bytesPerBlock / endpointOut->desc->maxPacketSize); i++)
 	{
 		//Read by one sector
@@ -424,7 +431,7 @@ bool usb_mass_storage::read(long long lba, short count, void * buf)
 	//Allocate Control Block Wrapper
 	cbw_t * cbw = s->cbw;
 retry_read:;
-	memset(cbw, 0, 31);
+	memset(cbw, 0, 32);
 	cbw->tag = s->tag;
 	s->tag++;
 	cbw->sig = 0x43425355;
@@ -443,12 +450,12 @@ retry_read:;
 	t->len = 0x1F;
 	t->complete = false;
 	t->success = false;
-	t->w = 1;// kprintf("{^%x}", lba);
-#ifdef DEBUG
-	kprintf("Read CBW\n");
+	t->w = 1;// printf("{^%x}", lba);
+/*#ifdef DEBUG
+	printf("Read CBW\n");
 	printMem(cbw, 13);
-	kprintf("\n");
-#endif // DEBUG
+	printf("\n");
+#endif // DEBUG*/
 	dev->hcIntr(dev, t);
 
 	for (int i = 0; i < count*(s->bytesPerBlock / endpointIn->desc->maxPacketSize); i++)
@@ -460,12 +467,12 @@ retry_read:;
 		t->len = endpointIn->desc->maxPacketSize;
 		t->complete = false;
 		t->success = false;
-		dev->hcIntr(dev, t);
+		dev->hcIntr(dev, t);/*
 #ifdef DEBUG
-		kprintf("Read Data\n");
+		printf("Read Data\n");
 		printMem(buf, 13);
-		kprintf("\n");
-#endif // DEBUG
+		printf("\n");
+#endif // DEBUG*/
 		buf = (void*)((size_t)buf + endpointOut->desc->maxPacketSize);
 	}
 	t->endp = endpointIn;
@@ -475,13 +482,13 @@ retry_read:;
 	t->complete = false;
 	t->success = false;
 	//Read CSW
-	dev->hcIntr(dev, t);
+	dev->hcIntr(dev, t);/*
 #ifdef DEBUG
-	kprintf("Read CSW\n");
+	printf("Read CSW\n");
 	printMem(cbw, 13);
-	kprintf("\n");
-#endif // DEBUG
-	//Invalid signature - soft reset
+	printf("\n");
+#endif // DEBUG*/
+//Invalid signature - soft reset
 	if (cbw->sig != 0x53425355) {
 		return 0;
 	}
@@ -494,6 +501,7 @@ bool usb_storage_init(UsbDevice * dev)
 	//Check out for endpoints for in/out
 	UsbEndpoint * endpointIn, *endpointOut;
 	endpointIn = (UsbEndpoint*)malloc(sizeof(UsbEndpoint));
+	memset(endpointIn, 0, sizeof(UsbEndpoint));
 	endpointIn->toggle = 0;//Initial toggle state is zero(In spec no information about,
 	//but it works and do not touch it!
 	if (dev->intfDesc->endpoints->addr & 0x80)
@@ -501,6 +509,7 @@ bool usb_storage_init(UsbDevice * dev)
 	else
 		endpointIn->desc = dev->intfDesc->endpoints->next;
 	endpointOut = (UsbEndpoint*)malloc(sizeof(UsbEndpoint));
+	memset(endpointIn, 0, sizeof(UsbEndpoint));
 	endpointOut->toggle = 0;//Initial toggle state is zero(In spec no information about,
 	//but it works and do not touch it!
 	if (dev->intfDesc->endpoints->addr & 0x80)
@@ -526,29 +535,32 @@ bool usb_storage_init(UsbDevice * dev)
 	dev->onDisconnect = &storageDisconnect;
 	t->w = 1;
 	storage->t = t;
-	storage->tag = 0x20000;
+	storage->tag = 0x2000;
 	storage->d = dev;
 	storage->endpointIn = endpointIn;
-	storage->cbw = (cbw_t*)malloc(100);
-	storage->cbw = (cbw_t*)((((size_t)storage->cbw) / 32 + 1) * 32);
 	storage->endpointOut = endpointOut;
+	storage->cbw = (cbw_t*)malloc(512);
+	storage->cbw = (cbw_t*)(((((size_t)storage->cbw) / 64) + 1) * 64);
+	printf("[ADDR:%x]", storage->cbw);
 	long long sectorCount = 0;
 	for (int lun = 0; lun <= lunCnt; ++lun) {
 		if (storage->inquiry_request()) return false;
 		//Start storage
 		storage->start_storage();
+		storage->request_sense();
 		//Wait for ready
 		while (storage->test_unit_ready()) {
 			//Request sense from device
 			storage->request_sense();
 		}
 		sectorCount = storage->read_capacity();
-	};
+	}
 	printf("Sectors count: %x\n", sectorCount);
 	storage->sectorsCount = sectorCount;
 	//Try read to clear chache
 	char * b = (char*)malloc(1024);
-	storage->read((long long)8193, (short)2, (void *)b);
+	storage->read((long long)0, (short)2, (void *)b);
+	printf("Read ok. : %x", *(unsigned short*)b);
 	free(b);
 	storage_add(storage, STORAGE_USB);
 }

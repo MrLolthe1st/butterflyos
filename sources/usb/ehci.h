@@ -144,32 +144,6 @@ typedef struct EhciOpRegs
 // Configure Flag Register
 
 #define CF_PORT_ROUTE                   (1 << 0)    // Configure Flag (CF)
-
-// ------------------------------------------------------------------------------------------------
-// Port Status and Control Registers
-
-#define PORT_CONNECTION                 (1 << 0)    // Current Connect Status
-#define PORT_CONNECTION_CHANGE          (1 << 1)    // Connect Status Change
-#define PORT_ENABLE                     (1 << 2)    // Port Enabled
-#define PORT_ENABLE_CHANGE              (1 << 3)    // Port Enable Change
-#define PORT_OVER_CURRENT               (1 << 4)    // Over-current Active
-#define PORT_OVER_CURRENT_CHANGE        (1 << 5)    // Over-current Change
-#define PORT_FPR                        (1 << 6)    // Force Port Resume
-#define PORT_SUSPEND                    (1 << 7)    // Suspend
-#define PORT_RESET                      (1 << 8)    // Port Reset
-#define PORT_LS_MASK                    (3 << 10)   // Line Status
-#define PORT_LS_SHIFT                   10
-#define PORT_POWER                      (1 << 12)   // Port Power
-#define PORT_OWNER                      (1 << 13)   // Port Owner
-#define PORT_IC_MASK                    (3 << 14)   // Port Indicator Control
-#define PORT_IC_SHIFT                   14
-#define PORT_TC_MASK                    (15 << 16)  // Port Test Control
-#define PORT_TC_SHIFT                   16
-#define PORT_WKCNNT_E                   (1 << 20)   // Wake on Connect Enable
-#define PORT_WKDSCNNT_E                 (1 << 21)   // Wake on Disconnect Enable
-#define PORT_WKOC_E                     (1 << 22)   // Wake on Over-current Enable
-#define PORT_RWC                        (PORT_CONNECTION_CHANGE | PORT_ENABLE_CHANGE | PORT_OVER_CURRENT_CHANGE)
-
 // ------------------------------------------------------------------------------------------------
 // Transfer Descriptor
 

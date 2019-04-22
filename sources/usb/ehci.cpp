@@ -1,11 +1,39 @@
+
 #include "ehci.h"
 #include "usbd.h"
 #include "../includes/string.h"
 #include "../includes/interrupts.h"
+
 //Turn off optimizations: MMIO
 #pragma GCC push_options
 #pragma GCC optimize("O0")
 #define uint unsigned int
+
+
+// ------------------------------------------------------------------------------------------------
+// Port Status and Control Registers. There are defines for PORTSC register, to don't override PORT status/control for hubs, etc.
+
+#define PORT_CONNECTION                 (1 << 0)    // Current Connect Status
+#define PORT_CONNECTION_CHANGE          (1 << 1)    // Connect Status Change
+#define PORT_ENABLE                     (1 << 2)    // Port Enabled
+#define PORT_ENABLE_CHANGE              (1 << 3)    // Port Enable Change
+#define PORT_OVER_CURRENT               (1 << 4)    // Over-current Active
+#define PORT_OVER_CURRENT_CHANGE        (1 << 5)    // Over-current Change
+#define PORT_FPR                        (1 << 6)    // Force Port Resume
+#define PORT_SUSPEND                    (1 << 7)    // Suspend
+#define PORT_RESET                      (1 << 8)    // Port Reset
+#define PORT_LS_MASK                    (3 << 10)   // Line Status
+#define PORT_LS_SHIFT                   10
+#define PORT_POWER                      (1 << 12)   // Port Power
+#define PORT_OWNER                      (1 << 13)   // Port Owner
+#define PORT_IC_MASK                    (3 << 14)   // Port Indicator Control
+#define PORT_IC_SHIFT                   14
+#define PORT_TC_MASK                    (15 << 16)  // Port Test Control
+#define PORT_TC_SHIFT                   16
+#define PORT_WKCNNT_E                   (1 << 20)   // Wake on Connect Enable
+#define PORT_WKDSCNNT_E                 (1 << 21)   // Wake on Disconnect Enable
+#define PORT_WKOC_E                     (1 << 22)   // Wake on Over-current Enable
+#define PORT_RWC                        (PORT_CONNECTION_CHANGE | PORT_ENABLE_CHANGE | PORT_OVER_CURRENT_CHANGE)
 
 // ------------------------------------------------------------------------------------------------
 bit32u MMIOREAD(const size_t base, const size_t offset) {
@@ -16,6 +44,7 @@ bit32u MMIOREAD(const size_t base, const size_t offset) {
 void MWIR(const size_t base, const size_t offset, const bit32u val) {
 	volatile bit32u *ptr = (volatile bit32u *)(base + offset);
 	*ptr = val;
+
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -142,20 +171,25 @@ static void EhciPortClr(volatile u32 *portReg, u32 data)
 // ------------------------------------------------------------------------------------------------
 static uint EhciResetPort(EhciController *hc, uint port)
 {
+	//printf("#%d#", port);
 	volatile u32 *reg = &hc->opRegs->ports[port];
 	// Reset the port
+
 	EhciPortSet(reg, PORT_POWER);
 	Wait(10);
 	EhciPortSet(reg, PORT_RESET);
-	Wait(103);
+	Wait(153);
 	EhciPortClr(reg, PORT_RESET);
+	Wait(10);
+	//printf("[%x]!", *reg);
 	unsigned int status = 0;
 	char powner_red = 0;
-	Wait(10);
 	for (uint i = 0; i < 5; ++i)
 	{
+		Wait(21);
 		// Get current status
 		status = *reg;
+		//printf("[%x]", *reg);
 		if (status & (3 << 10) && !powner_red)
 		{
 			*reg |= ((1 << 13));
@@ -176,7 +210,6 @@ static uint EhciResetPort(EhciController *hc, uint port)
 		if (status & PORT_ENABLE)
 			break;
 		// Delay
-		Wait(21);
 	}
 	return status;
 }
@@ -286,8 +319,7 @@ void EHCIPRINTTD(EhciTD * td)
 static void EhciProcessQH(EhciController *hc, EhciQH *qh)
 {
 	UsbTransfer *t = qh->transfer;
-	char z = *(char*)(VIDEO_SEG);
-	*(char*)(VIDEO_SEG) = z ^ 0;
+	Wait(1);
 	//WRITEREG(hc, usbStsO, 0);
 //	Wait(200);
 	//printf("[%x,%x,%x]", hc->opRegs->usbSts, hc->opRegs->asyncListAddr, qh->nextLink);
@@ -361,11 +393,11 @@ static void EhciWaitForQH(EhciController *hc, EhciQH *qh)
 {
 	long long start_time = time1024;
 	UsbTransfer *t = qh->transfer;
-	while (!t->complete && time1024 - start_time < 510)
+	while (!t->complete && time1024 - start_time < 1001)
 	{
 		EhciProcessQH(hc, qh);
 	}
-	if (time1024 - start_time >= 512)
+	if (time1024 - start_time >= 1000)
 	{
 		t->complete = true;
 		t->success = false;
@@ -514,6 +546,7 @@ static void EhciDevIntr(UsbDevice *dev, UsbTransfer *t)
 		EhciInsertPeriodicQH(hc->periodicQH, qh);
 	if (t->w)
 		EhciWaitForQH(hc, qh);
+
 }
 
 void probeEhciPort(EhciController *hc, uint port)
@@ -639,6 +672,7 @@ void reset_hc(EhciController * hc)
 	// wait for the halted bit to become set
 	// again, see note 1 below)
 	while (!(ROR(hc, usbStsO) & STS_HCHALTED));
+	printf("$");
 	Wait(11);
 
 }
@@ -646,44 +680,59 @@ void reset_hc(EhciController * hc)
 // ------------------------------------------------------------------------------------------------
 void _ehci_init(uint id, PciDeviceInfo *info)
 {
+	// Check for class
 	if (!(((info->classCode << 8) | info->subclass) == PCI_SERIAL_USB &&
 		info->progIntf == PCI_SERIAL_USB_EHCI))
-	{
 		return;
-	}
-	/*if (sizeof(EhciQH) != 128)
+	/*
+	if (sizeof(EhciQH) != 128)
 	{
 		printf("Unexpected EhciQH size: %d\n", sizeof(EhciQH));
 		return;
 	}*/
 	printf("Initializing EHCI\n");
-	// Base I/O Address
+
+	// Get base I/O Address
 	PciBar bar;
 	PciGetBar(&bar, id, 0);
+
 	if (bar.flags & PCI_BAR_IO)
 	{
+		printf("IO. Working only with MMIO\n");
 		// Only Memory Mapped I/O supported
 		return;
 	}
+
 	// Controller initialization
 	EhciController *hc = (EhciController *)malloc(sizeof(EhciController));
+
+	// Set addresses
 	hc->capRegs = (EhciCapRegs *)(uintptr_t)bar.u.address;
 	hc->ehcibase2 = (uint)bar.u.address;
 	hc->opRegs = (EhciOpRegs *)(uintptr_t)((size_t)bar.u.address + (size_t)hc->capRegs->capLength);
 	hc->ehcibase = (uint)&hc->opRegs->usbCmd;
-	//WRITEREG(hc, usbCmdO, 0);
-	int align = 4096;
+
+	//Allocate pools and framelist with 12-bit align
+	int align = 1 << 12;
+
 	hc->frameList = (u32 *)malloc(1024 * sizeof(u32) + align * 2);
 	hc->frameList = (unsigned int *)((((size_t)hc->frameList) / align) * align + align);
+
 	hc->qhPool = (EhciQH *)malloc(sizeof(EhciQH) * MAX_QH + align * 2);
 	hc->tdPool = (EhciTD *)malloc(sizeof(EhciTD) * MAX_TD + align * 2);
 	hc->qhPool = (EhciQH *)((((size_t)hc->qhPool) / align) * align + align);
 	hc->tdPool = (EhciTD *)((((size_t)hc->tdPool) / align) * align + align);
+	// Zero memory
 	memset(hc->qhPool, 0, sizeof(EhciQH) * MAX_QH);
 	memset(hc->tdPool, 0, sizeof(EhciTD) * MAX_TD);
+	printf("Allocated pools\nResetting:");
+
+	// Now reset the hc
 	reset_hc(hc);
+	printf("OK.\n");
 	// Asynchronous queue setup
 	EhciQH *qh = EhciAllocQH(hc);
+
 	qh->qhlp = (size_t)qh | PTR_QH;
 	qh->ch = QH_CH_H;
 	qh->caps = 0;
@@ -745,7 +794,7 @@ void _ehci_init(uint id, PciDeviceInfo *info)
 
 	//reset_hc(hc);
 	// Disable interrupts
-	MWIR(hc->ehcibase, usbIntrO, 0x3f);
+	MWIR(hc->ehcibase, usbIntrO, 0);
 	// Setup frame list
 	WRITEREG(hc, frameIndexO, 0);
 	WRITEREG(hc, periodicListBaseO, (u32)(uintptr_t)hc->frameList);
@@ -761,7 +810,8 @@ void _ehci_init(uint id, PciDeviceInfo *info)
 	//unsigned int sts = ROR(hc, usbStsO);
 	//WRITEREG(hc, usbStsO, sts | 0x20);
 	// Configure all devices to be managed by the EHCI
-	WRITEREG(hc, configFlagO, 0);
+	WRITEREG(hc, configFlagO, 1);
+	Wait(30);
 	// Probe devices
 	EhciProbe(hc);
 

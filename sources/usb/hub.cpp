@@ -2,6 +2,19 @@
 #include "../includes/interrupts.h"
 #define PORT_SPEED_MASK                 (3 << 9)    // Port Speed
 #define PORT_SPEED_SHIFT                9
+#define PORT_CONNECTION                 (1 << 0)    // Current Connect Status
+#define PORT_ENABLE                     (1 << 1)    // Port Enabled
+#define PORT_SUSPEND                    (1 << 2)    // Suspend
+#define PORT_OVER_CURRENT               (1 << 3)    // Over-current
+#define PORT_RESET                      (1 << 4)    // Port Reset
+#define PORT_POWER                      (1 << 8)    // Port Power
+#define PORT_SPEED_MASK                 (3 << 9)    // Port Speed
+#define PORT_SPEED_SHIFT                9
+#define PORT_TEST                       (1 << 11)   // Port Test Control
+#define PORT_INDICATOR                  (1 << 12)   // Port Indicator Control
+#define PORT_CONNECTION_CHANGE          (1 << 16)   // Connect Status Change
+#define PORT_ENABLE_CHANGE              (1 << 17)   // Port Enable Change
+#define PORT_OVER_CURRENT_CHANGE        (1 << 19)   // Over-current Change
 
 // ------------------------------------------------------------------------------------------------
 unsigned int UsbHubResetPort(UsbHub *hub, unsigned int port)
@@ -25,7 +38,6 @@ unsigned int UsbHubResetPort(UsbHub *hub, unsigned int port)
 	{
 		return 0;
 	}
-	Wait(102);
 	// Wait 100ms for port to enable (TODO - remove after dynamic port detection)
 	int oo = 0;
 	for (unsigned int i = 0; i < 10; ++i)
@@ -62,7 +74,7 @@ unsigned int UsbHubResetPort(UsbHub *hub, unsigned int port)
 			break;
 		}
 	}
-	if (status & (3 << 10)) return 0;
+	//if (status & (3 << 10)) return 0;
 
 	if (status & PORT_CONNECTION_CHANGE)
 		if (!UsbDevRequest(dev,
@@ -79,7 +91,7 @@ unsigned int UsbHubResetPort(UsbHub *hub, unsigned int port)
 	{
 		return 0;
 	}
-	if (status | 2) return 0;
+	//if (status | 2) return 0;
 	return status;
 }
 
@@ -100,21 +112,22 @@ void UsbHubProbe(UsbHub *hub)
 	unsigned int portCount = hub->desc.portCount;
 	// Enable power if needed
 
-	for (unsigned int port = 0; port < portCount; ++port)
+	for (int port = 0; port < portCount; ++port)
 	{
-		//continue;
 		if (!UsbDevRequest(dev,
 			0x23,
 			REQ_SET_FEATURE, F_PORT_POWER, port + 1,
 			0, 0))
 		{
+			printf("!!");
 			//////return;
 		}
-		//	printf("!");
-		Wait(12);
+
+		Wait(hub->desc.portPowerTime * 20 + 10);
 	}
 
-	Wait(13);
+
+	Wait(120);
 	// Reset ports
 	for (unsigned int port = 0; port < portCount; ++port)
 	{
@@ -141,6 +154,7 @@ void UsbHubProbe(UsbHub *hub)
 				if (!UsbDevInit(dev))
 				{
 					// TODO - cleanup
+					printf("oooooow");
 				}
 			}
 		}
@@ -164,7 +178,7 @@ void UsbHubPoll(UsbDevice *dev)
 		{
 			continue;
 		}
-		if (status & PORT_CONNECTION_CHANGE && !(status&PORT_CONNECTION))
+		if (status & PORT_CONNECTION_CHANGE && ! (status & PORT_CONNECTION))
 		{
 			printf("USB Hub device disconnected!\n");
 			//Clear Connection change bit

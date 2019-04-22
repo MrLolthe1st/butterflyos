@@ -1,8 +1,11 @@
 .vs/*
 *.db
-*.o
+*.[o]
+images/*
 *.bin
 *.img
 *.vhd
 binaries/
 binaries/*
+*.db
+*.VC.db

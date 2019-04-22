@@ -30,7 +30,8 @@ void int_l() {
 long long time = 0;
 IRQ_HANDLER(pit_timer)
 {
-	time++; 
+	time++;
+	time1024 += 1024 / 17;
 	if (pressed_keys != 0 && (time - last_press) > 2)
 	{
 		keys_queue.insert(Key(pressed_keys, 1));
