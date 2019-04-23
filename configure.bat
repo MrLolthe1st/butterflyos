@@ -1,5 +1,4 @@
 @echo off
-@echo off
 
 :: BatchGotAdmin
 :-------------------------------------
@@ -12,6 +11,10 @@ REM  --> Check for permissions
 
 REM --> If error flag set, we do not have admin.
 if '%errorlevel%' NEQ '0' (
+    color 0A
+    echo First-build configator.
+    echo If Windows has opened it window twice, just close it now, and run it with admin rights.
+    pause
     echo Requesting administrative privileges...
     goto UACPrompt
 ) else ( goto gotAdmin )
@@ -28,25 +31,35 @@ if '%errorlevel%' NEQ '0' (
 :gotAdmin
     pushd "%CD%"
     CD /D "%~dp0"
-:--------------------------------------  
-md binaries
-cd binaries
-md input
-md memory
-md std
-md storage
-md usb
+:-------------------------------------- 
+md binaries >nul
+md images >nul
+cd binaries >nul
+md input >nul
+md memory >nul
+md std >nul
+md storage >nul
+md usb >nul
 cd ..
-dd if=/dev/zero of=images/disk.img bs=1k count=71000
-echo Using ImDisk mount disk.img as A:, format to FAT32 and press any key.
-pause
+imdisk -d -m A: >nul
+dd if=/dev/zero of=images/disk.img bs=1k count=71000 >nul
+imdisk -a -f images/disk.img -m A:
+if '%errorlevel%' NEQ '0' (
+    echo Install ImDisk and continue
+    pause
+    exit
+)
+format /FS:FAT32 A: /y
 sync64 A:
-echo Now, unmount drive, and press any key.
-pause
+imdisk -d -m A:
+nasm sources/bootloader.asm -o images/bootloader
 cd images
-g++ a.cpp -std=c++11 -o makeboot.exe
+g++ ../rewriteboot.cpp -std=c++11 -o makeboot.exe
 makeboot
 copy c.img disk.img
 del /f c.img
+del /f makeboot.exe
+del /f bootloader
+imdisk -a -f disk.img -m A:
 echo Configured.
 pause
