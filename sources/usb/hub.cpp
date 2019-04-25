@@ -40,10 +40,10 @@ unsigned int UsbHubResetPort(UsbHub *hub, unsigned int port)
 	}
 	// Wait 100ms for port to enable (TODO - remove after dynamic port detection)
 	int oo = 0;
-	for (unsigned int i = 0; i < 10; ++i)
+	for (unsigned int i = 0; i < 2; ++i)
 	{
 		// Delay
-		Wait(153);
+		Wait(34);
 
 		// Get current status
 		if (!UsbDevRequest(dev,
@@ -53,6 +53,7 @@ unsigned int UsbHubResetPort(UsbHub *hub, unsigned int port)
 		{
 			return 0;
 		}
+
 		// Check if device is attached to port
 		if (~status & PORT_CONNECTION)
 		{
@@ -108,6 +109,7 @@ void UsbPrintHubDesc(UsbHubDesc *desc)
 // ------------------------------------------------------------------------------------------------
 void UsbHubProbe(UsbHub *hub)
 {
+	log_debug(DEBUG_INFO, "Enabling power and probing hub ports");
 	UsbDevice *dev = hub->dev;
 	unsigned int portCount = hub->desc.portCount;
 	// Enable power if needed
@@ -119,16 +121,15 @@ void UsbHubProbe(UsbHub *hub)
 			REQ_SET_FEATURE, F_PORT_POWER, port + 1,
 			0, 0))
 		{
-			printf("!!");
-			//////return;
+			log_debug(DEBUG_ERROR, "Can't set feature 'F_PORT_POWER'");
 		}
 
-		Wait(hub->desc.portPowerTime * 20 + 10);
+		Wait(hub->desc.portPowerTime * 20);
 	}
-
 
 	Wait(120);
 	// Reset ports
+	log_debug(DEBUG_OK, "Power enabled.");
 	for (unsigned int port = 0; port < portCount; ++port)
 	{
 		//Wait(10);
@@ -178,7 +179,7 @@ void UsbHubPoll(UsbDevice *dev)
 		{
 			continue;
 		}
-		if (status & PORT_CONNECTION_CHANGE && ! (status & PORT_CONNECTION))
+		if (status & PORT_CONNECTION_CHANGE && !(status & PORT_CONNECTION))
 		{
 			printf("USB Hub device disconnected!\n");
 			//Clear Connection change bit
@@ -269,7 +270,7 @@ bool usb_hub_init(UsbDevice *dev)
 {
 	if (dev->intfDesc->intfClass == USB_CLASS_HUB)
 	{
-		printf("Initializing Hub\n");
+		log_debug(DEBUG_INFO, "Initializing Hub\n");
 
 		// Get Hub Descriptor
 		UsbHubDesc desc;
@@ -283,7 +284,6 @@ bool usb_hub_init(UsbDevice *dev)
 			return false;
 		}
 
-		UsbPrintHubDesc(&desc);
 
 		UsbHub *hub = (UsbHub*)malloc(sizeof(UsbHub));
 		hub->dev = dev;
@@ -293,7 +293,6 @@ bool usb_hub_init(UsbDevice *dev)
 		dev->drvPoll = UsbHubPoll;
 
 		UsbHubProbe(hub);
-		printf("ok.");
 		return true;
 	}
 

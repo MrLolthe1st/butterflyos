@@ -26,22 +26,30 @@
 DRIVE_LETTER	=	A:
 CC				=	g++
 LD				=	LD
+PLOG_CONVERTER	=	"C:\Program Files (x86)\PVS-Studio\PlogConverter.exe"
 
 #    	Options
-CFLAGS			=	-nostdlib -ffreestanding -std=c++11 -c -O0
+CFLAGS			=	-nostdlib -ffreestanding -std=c++11 -c -O0 -pedantic
 LDFLAGS			=	-Ttext 0x100000
+PVS_CFG			= 	PVS-Studio.cfg
+PVS_LOG_DIR		=	.
+LOG_FORMAT		=	Html,Csv,Plog
+NAME_TEMPLATE	=	project
+
 #    	Directories
 BINDIR			=	binaries
 SRCDIR			=	sources
 
 #    	TODO: auto .cpp collection
 SOURCES1		=	kernel.cpp video.cpp memory/memory.cpp string.cpp interrupts.cpp ports.cpp storage/storage.cpp storage/ata.cpp input/input.cpp input/ps2.cpp pci.cpp storage/ahci.cpp std/trees.cpp std/map.cpp storage/drives.cpp usb/usbd.cpp usb/ehci.cpp link.cpp storage/msd.cpp usb/hub.cpp
+POBJECTS		=	$(addprefix $(BINDIR)/, $(SOURCES1:.cpp=.o.PVS-Studio.log))
 
 #    	To all files: add $(BINDIR)/ to filename and replace extension
 OBJ				=	$(addprefix $(BINDIR)/, $(SOURCES1:.cpp=.o))
 EXECUTABLE		=	kernel.bin
 
 SYNC			:=
+
 ifeq ($(OS), Windows_NT)
 	SYNC := sync64.exe $(DRIVE_LETTER)
 endif
@@ -52,6 +60,8 @@ all: $(EXECUTABLE)
 $(BINDIR)/%.o: $(SRCDIR)/%.cpp
 	$(eval temp := $*)
 	@$(CC) $(CFLAGS) $(SRCDIR)/$*.cpp -o $(BINDIR)/$*.o
+	@$(CC) $(CFLAGS) $(SRCDIR)/$*.cpp -E -o $@.PVS-Studio.i
+	@C:\Program Files (x86)\PVS-Studio\x64\PVS-Studio.exe --cfg $(PVS_CFG) --source-file $< --i-file $@.PVS-Studio.i --output-file $@.PVS-Studio.log
 
 #    Additional dependeces.
 $(BINDIR)/caller.o: $(SRCDIR)/caller.asm
@@ -65,9 +75,14 @@ $(EXECUTABLE): $(BINDIR)/tlsf.o $(BINDIR)/caller.o $(OBJ)
 	@objcopy $(BINDIR)/$(EXECUTABLE) -O binary
 	@nasm $(SRCDIR)/boot.asm -o $(BINDIR)/startup -w-lock
 	@echo Builded
+	
+pvs_check: all
+	$(PLOG_CONVERTER) -a "GA:1,2,3" -t $(LOG_FORMAT) $(POBJECTS) -o $(PVS_LOG_DIR) -n $(NAME_TEMPLATE)
 
 run: all
 	@copy $(BINDIR)\startup $(DRIVE_LETTER)\STARTUP
 	@$(SYNC)
 	@copy images\disk.img images\boot.img
+	@dd if=images/boot.img of=images/ButterflyOS.vhd
 	qemu-system-x86_64.exe -m 92 -net nic,model=rtl8139   -drive if=none,id=usbstick,file=images\boot.img -usb -device usb-ehci,id=ehci -device usb-storage,bus=ehci.0,drive=usbstick -no-reboot -vga std -D aa.txt -monitor stdio -device usb-mouse 
+	

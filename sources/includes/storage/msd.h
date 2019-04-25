@@ -11,6 +11,7 @@ typedef struct  __attribute__((__packed__)) _q1__q {
 	uint8_t lun;
 	uint8_t wcb_len;
 	u8 cmd;
+	unsigned char command[15];
 } cbw_t;
 class usb_mass_storage {
 public:

@@ -8,14 +8,14 @@
 #pragma GCC optimize("Ofast")
 ATA_Drive ata_disks[4];
 
-void wait_for_set(int * a, int c)
+void wait_for_set(volatile int * a, int c)
 {
 	while (!(*a & (1 << c)));
 }
 
-void wait_for_clear(short * a, int c)
+void wait_for_clear(volatile short * a, int c)
 {
-	while ((*a & (1 << c)));
+	while (*a & (1 << c));
 }
 
 
@@ -55,7 +55,7 @@ int ATA_Drive::identify_drive(unsigned short * buf)
 	outportb(this->port + ATA_COMMAND_OFFSET, ATA_IDENTIFY);
 	this->wait_ready();
 	char result = inportb(this->port + ATA_STATUS_OFFSET);
-	if (result == 0 || result | 1) return 0;
+	if (!result || (result | 1)) return 0;
 	this->wait_data();
 	for (int i = 0; i < 256; i++)
 		buf[i] = inportw(this->port + ATA_DATA_OFFSET);

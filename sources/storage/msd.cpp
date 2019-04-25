@@ -1,6 +1,8 @@
 #include "../includes/storage/msd.h"
 #include "../includes/interrupts.h"
-#define DEBUG 1
+
+const int cbw_sig = 0x43425355;
+//#define DEBUG 1
 template<typename T>
 void printMem(T aa, size_t c)
 {
@@ -19,7 +21,7 @@ void printMem(T aa, size_t c)
 
 }
 
-unsigned int MassStorageReset(UsbDevice * dev, UsbEndpoint * out)
+unsigned int msd_reset(UsbDevice * dev, UsbEndpoint * out)
 {
 	//MassStorage Reset command
 	if (!UsbDevRequest(dev, RT_HOST_TO_DEV | RT_CLASS | RT_INTF, 0xff, 0, dev->intfDesc->intfIndex, 0, 0)) {
@@ -34,41 +36,53 @@ unsigned int MassStorageReset(UsbDevice * dev, UsbEndpoint * out)
 	return 0;
 }
 
+
+bool clear_endpoint_halt(usb_mass_storage * s)
+{
+	if (!UsbDevRequest(s->d, 0x2, 0x01, 0, s->endpointOut->desc->addr & 0xf, 0, 0)) {
+		printf("Can't clear halt for endpoint %x, exiting...\n", s->endpointOut->desc->addr & 0xf);
+		return 0;
+	}
+	return 1;
+}
+
+void prepare_transfer(UsbTransfer * t, UsbEndpoint * e, int len, void * data)
+{
+	t->w = 1;
+	t->complete = false;
+	t->success = false;
+	t->endp = e;
+	t->len = len;
+	t->data = data;
+	t->req = 0;
+}
+
 void usb_mass_storage::start_storage()
 {
 	usb_mass_storage * s = this;
 	UsbDevice * dev = this->d;
-	UsbTransfer *t = this->t;
-	UsbEndpoint * endpointIn = s->endpointIn, *endpointOut = s->endpointOut;
-	cbw_t * cbw = this->cbw; // (cbw_t*)malloc(33);
+
+	// Prepare CBW
 	memset(cbw, 0, 31);
-	cbw->lun = 0;
-	cbw->tag = s->tag;
-	s->tag++;
-	cbw->sig = 0x43425355;
-	cbw->wcb_len = 10;
-	cbw->flags = 0x80;
+	cbw->lun = 0; cbw->tag = s->tag;
+	s->tag++; cbw->sig = cbw_sig;
+	cbw->wcb_len = 10;	cbw->flags = 0x80;
 	cbw->xfer_len = 0;
-	*((u8*)((size_t)cbw + 15)) = 0x1b;
+
+	// and command, also
+	*((u8*)((size_t)cbw + 15)) = 0x1B;
 	*((u8*)((size_t)cbw + 18)) = 0;
-	*((u8*)((size_t)cbw + 19)) = 1 | (1 << 4);//252 bytes - full sense(see SCSI spec.)
-	t->endp = endpointOut;
-	t->req = 0;
-	t->data = cbw;
-	t->len = 0x1F;
-	t->complete = false;
-	t->success = false;
-	t->w = 1;
+	*((u8*)((size_t)cbw + 19)) = 1 | (1 << 4);
+
+	prepare_transfer(t, endpointOut, 0x1F, cbw);
 	dev->hcIntr(dev, t);
-	t->endp = endpointIn;
-	t->req = 0;
-	t->data = cbw;
-	t->len = 13;
-	t->complete = false;
-	t->success = false;
-	t->w = 1;
+
+	if (!t->success) { clear_endpoint_halt(s);  return; }
+
+	prepare_transfer(t, endpointIn, 13, cbw);
 	dev->hcIntr(dev, t);
-	//free(cbw);
+	if (!t->success) { clear_endpoint_halt(s);  return; }
+
 }
 
 typedef struct PACKED {
@@ -80,7 +94,6 @@ typedef struct PACKED {
 	u8 ctrl;
 } inquiry_cmd;
 
-uint32_t cbw_sig = 0x43425355;
 typedef struct __attribute__((__packed__)) __cmd_rdcap_10_t {
 	u8 op;  // 0x25
 	u8 reserved;
@@ -91,73 +104,54 @@ typedef struct __attribute__((__packed__)) __cmd_rdcap_10_t {
 } cmd_rdcap_10_t;
 
 
-bool clearHalt(usb_mass_storage * s)
-{
-	if (!UsbDevRequest(s->d, 0x2, 0x01, 0, s->endpointOut->desc->addr & 0xf, 0, 0)) {
-		printf("Can't clear halt for endpoint %x, exiting...\n", s->endpointOut->desc->addr & 0xf);
-		return 0;
-	}
-	return 1;
-}
 
 long long usb_mass_storage::read_capacity()
 {
 	usb_mass_storage * s = this;
 	UsbDevice * dev = s->d;
-	UsbTransfer *t = s->t;
-	UsbEndpoint * endpointIn = s->endpointIn, *endpointOut = s->endpointOut;
-	cbw_t * cbw = this->cbw; // this->cbw;
-	memset(cbw, 0, 31);
-	cbw->lun = 0;
-	cbw->sig = 0x43425355;
-	cbw->wcb_len = 10;
-	cbw->tag = s->tag;
-	s->tag++;
-	cbw->flags = 0x80;
-	cbw->xfer_len = 8;
-	cmd_rdcap_10_t * cmd = (cmd_rdcap_10_t *)((size_t)cbw + 15);
-	cmd->op = 0x25;
-	t->endp = endpointOut;
-	t->req = 0;
-	t->data = cbw;
-	t->len = 0x1f;
-	t->complete = false;
-	t->success = false;
-	t->w = 1;
+
+	memset(cbw, 0, 31);	cbw->lun = 0;
+	cbw->sig = cbw_sig; cbw->wcb_len = 10;
+	cbw->tag = s->tag;	s->tag++;
+	cbw->flags = 0x80;	cbw->xfer_len = 8;
+	cmd_rdcap_10_t * cmd = (cmd_rdcap_10_t *)((size_t)cbw + 15);	cmd->op = 0x25;
+
+	prepare_transfer(t, endpointOut, 0x1F, cbw);
+
 #ifdef DEBUG
 	printf("ReadCapacity CBW\n");
 	printMem(cbw, 13);
 	printf("\n");
 #endif // DEBUG
+
 	dev->hcIntr(dev, t);
+
+	if (!t->success) { clear_endpoint_halt(s);  return 0; }
+
+
 	unsigned char res[8] = {};
-	t->endp = endpointIn;
-	t->req = 0;
-	t->data = &res;
-	t->len = 0x8;
-	t->complete = false;
-	t->success = false;
-	t->w = 1;
+
+	prepare_transfer(t, endpointIn, 0x08, &res);
 	dev->hcIntr(dev, t);
+
+	if (!t->success) { clear_endpoint_halt(s);  return 0; }
+
 #ifdef DEBUG
 	printf("ReadCapacity DATA\n");
 	printMem(&res, 8);
 	printf("\n");
 #endif // DEBUG
-	t->endp = endpointIn;
-	t->req = 0;
-	t->data = cbw;
-	t->len = 13;
-	t->complete = false;
-	t->success = false;
-	t->w = 1;
+
+	prepare_transfer(t, endpointIn, 13, cbw);
 	dev->hcIntr(dev, t);
+	if (!t->success) { clear_endpoint_halt(s);  return 0; }
+
 #ifdef DEBUG
 	printf("ReadCapacity CSW\n");
 	printMem(cbw, 13);
 	printf("\n");
 #endif // DEBUG
-	//free(cbw);
+
 	s->bytesPerBlock = (res[4] << 24) + (res[5] << 16) + (res[6] << 8) + res[7];
 	return (res[0] << 24) + (res[1] << 16) + (res[2] << 8) + res[3];
 }
@@ -165,96 +159,71 @@ long long usb_mass_storage::read_capacity()
 bool usb_mass_storage::request_sense()
 {
 	usb_mass_storage * s = this;
-	if (!clearHalt(s)) return false;
 	UsbDevice * dev = s->d;
-	UsbTransfer *t = s->t;
-	UsbEndpoint * endpointIn = s->endpointIn, *endpointOut = s->endpointOut;
 
-	cbw_t * cbw = this->cbw; // (cbw_t*)malloc(sizeof(cbw_t) + 20);
-	memset(cbw, 0, 31);
-	cbw->lun = 0;
-	cbw->tag = s->tag;
-	s->tag++;
-	cbw->sig = 0x43425355;
-	cbw->wcb_len = 10;
+	memset(cbw, 0, 31);		cbw->lun = 0;
+	cbw->tag = s->tag;		s->tag++;
+	cbw->sig = cbw_sig;		cbw->wcb_len = 10;
+	cbw->flags = 0x80;		cbw->xfer_len = 0x12;
 
-	cbw->flags = 0x80;
-	cbw->xfer_len = 0x12;
 	*((u8*)((size_t)cbw + 15)) = 0x03;
 	*((u8*)((size_t)cbw + 16)) = 0x01;
-	*((u8*)((size_t)cbw + 19)) = 0x12;//252 bytes - full sense(see SCSI spec.)
-	t->endp = endpointOut;
-	t->req = 0;
-	t->data = cbw;
-	t->len = 0x1F;
-	t->complete = false;
-	t->success = false;
-	t->w = 1;
+	*((u8*)((size_t)cbw + 19)) = 0x12;
+
+	prepare_transfer(t, endpointOut, 0x1F, cbw);
+
 #ifdef DEBUG
 	printf("RequsetSense CBW\n");
 	printMem(cbw, 13);
 	printf("\n");
 #endif // DEBUG
+
 	dev->hcIntr(dev, t);
+	if (!t->success) { clear_endpoint_halt(s);  return 0; }
+
 	char z[32];
-	t->endp = endpointIn;
-	t->req = 0;
-	t->data = &z;
-	t->len = 0x12;
-	t->complete = false;
-	t->success = false;
-	t->w = 1;
+
+	prepare_transfer(t, endpointIn, 0x12, &z);
 	dev->hcIntr(dev, t);
+	if (!t->success) { clear_endpoint_halt(s);  return 0; }
+
 #ifdef DEBUG
 	printf("RequsetSense Data\n");
 	printMem(&z, 0x12);
 	printf("\n");
 #endif // DEBUG
-	t->endp = endpointIn;
-	t->req = 0;
-	t->data = cbw;
-	t->len = 13;
-	t->complete = false;
-	t->success = false;
-	t->w = 1;
-	dev->hcIntr(dev, t);
+
+
+	prepare_transfer(t, endpointIn, 13, cbw);
+
+	if (!t->success) { clear_endpoint_halt(s);  return 0; }
 #ifdef DEBUG
 	printf("RequestSense CSW\n");
 	printMem(cbw, 13);
 	printf("\n");
 #endif // DEBUG
-	//free(cbw);
 	return 1;
 }
 
 bool usb_mass_storage::test_unit_ready()
 {
 	usb_mass_storage * s = this;
-	if (!clearHalt(s)) return false;
 	UsbDevice * dev = s->d;
-	UsbTransfer *t = s->t;
-	UsbEndpoint * endpointIn = s->endpointIn, *endpointOut = s->endpointOut;
-	cbw_t * cbw = this->cbw; // (cbw_t*)malloc(33);
-	cbw->lun = 0;
-	cbw->tag = s->tag;
-	s->tag++;
-	cbw->sig = 0x43425355;
-	cbw->wcb_len = 10;
-	cbw->flags = 0x00;
+	cbw->lun = 0;		cbw->tag = s->tag;
+	s->tag++;			cbw->sig = cbw_sig;
+	cbw->wcb_len = 10;	cbw->flags = 0x00;
 	cbw->xfer_len = 0;
-	t->endp = endpointOut;
-	t->req = 0;
-	t->data = cbw;
-	t->len = 0x1F;
-	t->complete = false;
-	t->success = false;
-	t->w = 1;
+
+	prepare_transfer(t, endpointOut, 0x1F, cbw);
+
 #ifdef DEBUG
 	printf("TUR CBW\n");
 	printMem(cbw, 13);
 	printf("\n");
 #endif // DEBUG
+
 	dev->hcIntr(dev, t);
+	if (!t->success) { clear_endpoint_halt(s);  return 0; }
 
 	t->endp = endpointIn;
 	t->req = 0;
@@ -277,7 +246,7 @@ bool usb_mass_storage::test_unit_ready()
 bool usb_mass_storage::inquiry_request()
 {
 	usb_mass_storage * s = this;
-	if (!clearHalt(s)) return false;
+	if (!clear_endpoint_halt(s)) return false;
 	UsbDevice * dev = s->d;
 	UsbTransfer *t = s->t;
 	UsbEndpoint * endpointIn = s->endpointIn, *endpointOut = s->endpointOut;
@@ -286,7 +255,7 @@ bool usb_mass_storage::inquiry_request()
 	cbw->lun = 0;
 	cbw->tag = s->tag;
 	s->tag++;
-	cbw->sig = 0x43425355;
+	cbw->sig = cbw_sig;
 	cbw->wcb_len = 10;
 	cbw->flags = 0x80;
 	cbw->xfer_len = 0x24;
@@ -368,7 +337,7 @@ bool usb_mass_storage::write(long long lba, short count, void * buf)
 	memset(cbw, 0, 31);
 	cbw->tag = s->tag;
 	s->tag++;
-	cbw->sig = 0x43425355;
+	cbw->sig = cbw_sig;
 	cbw->wcb_len = 10;
 	cbw->flags = 0x00;
 	//Transfer length
@@ -423,7 +392,7 @@ void poll()
 bool usb_mass_storage::read(long long lba, short count, void * buf)
 {
 	usb_mass_storage * s = this;
-	//clearHalt(s);
+	//clear_endpoint_halt(s);
 	//Get device and endpoints
 	UsbDevice * dev = s->d; char *ut = (char*)buf;
 	UsbTransfer *t = s->t;
@@ -434,7 +403,7 @@ retry_read:;
 	memset(cbw, 0, 32);
 	cbw->tag = s->tag;
 	s->tag++;
-	cbw->sig = 0x43425355;
+	cbw->sig = cbw_sig;
 	cbw->wcb_len = 10;
 	cbw->flags = 0x80;
 	//Transfer length
@@ -498,38 +467,43 @@ retry_read:;
 
 bool usb_storage_init(UsbDevice * dev)
 {
-	//Check out for endpoints for in/out
+	// Check out for endpoints for in/out
+
 	UsbEndpoint * endpointIn, *endpointOut;
 	endpointIn = (UsbEndpoint*)malloc(sizeof(UsbEndpoint));
 	memset(endpointIn, 0, sizeof(UsbEndpoint));
-	endpointIn->toggle = 0;//Initial toggle state is zero(In spec no information about,
-	//but it works and do not touch it!
+	endpointIn->toggle = 0;
+	// Initial toggle state is zero(In spec no information about(i'm haven't found),
+	// but it works and do not touch it!
+
 	if (dev->intfDesc->endpoints->addr & 0x80)
 		endpointIn->desc = dev->intfDesc->endpoints;
 	else
 		endpointIn->desc = dev->intfDesc->endpoints->next;
+
+
 	endpointOut = (UsbEndpoint*)malloc(sizeof(UsbEndpoint));
-	memset(endpointIn, 0, sizeof(UsbEndpoint));
-	endpointOut->toggle = 0;//Initial toggle state is zero(In spec no information about,
-	//but it works and do not touch it!
+	endpointOut->toggle = 0;
+	// Initial toggle state is zero(In spec no information about(i'm haven't found),
+	// but it works and do not touch it!
+
 	if (dev->intfDesc->endpoints->addr & 0x80)
 		endpointOut->desc = dev->intfDesc->endpoints->next;
 	else
 		endpointOut->desc = dev->intfDesc->endpoints;
 	//Reset MassStorage
-	if (MassStorageReset(dev, endpointOut))
-		return false; //Haven't reseted, get out from here!
-	Wait(153);
+	if (msd_reset(dev, endpointOut))
+		return false; // Haven't reseted, get out from here!
+
 	u8 lunCnt = 0;
 	if (!UsbDevRequest(dev, 0b10100001, 0xfe, 0, dev->intfDesc->intfIndex, 1, &lunCnt)) {
 		printf("Can't get LUN count!\n"); return false;
 	}
 	dev->drvPoll = (void(*)(UsbDevice*)) &poll;
-	Wait(153);
-	printf("LUN count:%x\n", lunCnt);
-	//Preapare transfer
+
+	// Preapare transfer
 	UsbTransfer *t = (UsbTransfer*)malloc(sizeof(UsbTransfer));
-	//Allocate memory for storage structures
+	// Allocate memory for storage structures
 	usb_mass_storage * storage = (usb_mass_storage*)malloc(sizeof(usb_mass_storage));
 	dev->drv = storage;
 	dev->onDisconnect = &storageDisconnect;
@@ -541,21 +515,21 @@ bool usb_storage_init(UsbDevice * dev)
 	storage->endpointOut = endpointOut;
 	storage->cbw = (cbw_t*)malloc(512);
 	storage->cbw = (cbw_t*)(((((size_t)storage->cbw) / 64) + 1) * 64);
-	printf("[ADDR:%x]", storage->cbw);
 	long long sectorCount = 0;
 	for (int lun = 0; lun <= lunCnt; ++lun) {
 		if (storage->inquiry_request()) return false;
+
 		//Start storage
 		storage->start_storage();
-		storage->request_sense();
 		//Wait for ready
 		while (storage->test_unit_ready()) {
+
 			//Request sense from device
 			storage->request_sense();
 		}
 		sectorCount = storage->read_capacity();
 	}
-	printf("Sectors count: %x\n", sectorCount);
+	log_debug(DEBUG_OK, "MSD sectors count: %lld, %lld MBytes", (int)sectorCount, (int)(sectorCount >> 11) + !!(sectorCount % (1 << 11)));
 	storage->sectorsCount = sectorCount;
 	//Try read to clear chache
 	char * b = (char*)malloc(1024);

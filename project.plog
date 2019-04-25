@@ -1,0 +1,4164 @@
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Solution_Path">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="SolutionPath" type="xs:string" minOccurs="0" />
+                <xs:element name="SolutionVersion" type="xs:string" minOccurs="0" />
+                <xs:element name="PlogVersion" type="xs:unsignedInt" minOccurs="0" />
+                <xs:element name="ModificationDate" msdata:DateTimeMode="Utc" type="xs:dateTime" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="PVS-Studio_Analysis_Log">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="FavIcon" type="xs:boolean" minOccurs="0" msdata:Ordinal="0" />
+                <xs:element name="Level" type="xs:unsignedInt" minOccurs="0" msdata:Ordinal="1" />
+                <xs:element name="DefaultOrder" type="xs:int" minOccurs="0" msdata:Ordinal="2" />
+                <xs:element name="ErrorCode" type="xs:string" minOccurs="0" msdata:Ordinal="3" />
+                <xs:element name="Message" type="xs:string" msdata:Ordinal="4" />
+                <xs:element name="Project" type="xs:string" minOccurs="0" msdata:Ordinal="5" />
+                <xs:element name="ShortFile" type="xs:string" minOccurs="0" msdata:Ordinal="6" />
+                <xs:element name="Line" type="xs:int" msdata:Ordinal="7" />
+                <xs:element name="FalseAlarm" type="xs:boolean" minOccurs="0" msdata:Ordinal="8" />
+                <xs:element name="File" type="xs:string" msdata:Ordinal="9" />
+                <xs:element name="CodePrev" type="xs:unsignedInt" minOccurs="0" msdata:Ordinal="10" />
+                <xs:element name="CodeCurrent" type="xs:unsignedInt" minOccurs="0" msdata:Ordinal="11" />
+                <xs:element name="CodeNext" type="xs:unsignedInt" minOccurs="0" msdata:Ordinal="12" />
+                <xs:element name="TrialMessage" type="xs:boolean" minOccurs="0" msdata:Ordinal="13" />
+                <xs:element name="Analyzer" type="xs:int" minOccurs="0" msdata:Ordinal="14" />
+                <xs:element name="LineExtension" type="xs:string" minOccurs="0" msdata:Ordinal="15" />
+                <xs:element name="Retired" type="xs:boolean" default="false" minOccurs="0" msdata:Ordinal="16" />
+                <xs:element name="AnalyzedSourceFiles" type="xs:string" minOccurs="0" msdata:Ordinal="17" />
+                <xs:element name="CWECode" type="xs:string" minOccurs="0" msdata:Ordinal="18" />
+                <xs:element name="MISRA" type="xs:string" minOccurs="0" msdata:Ordinal="19" />
+              </xs:sequence>
+              <xs:attribute name="ErrorCodeNumeric" msdata:ReadOnly="true" msdata:Expression="IIF(LEN(ErrorCode) &lt; 2 OR (SUBSTRING(ErrorCode, 1, 1) &lt;&gt; 'V'), 0, CONVERT(SUBSTRING(ErrorCode, 2, LEN(ErrorCode) - 1), 'System.UInt32'))" type="xs:unsignedInt" use="prohibited" />
+              <xs:attribute name="CWECodeNumeric" msdata:ReadOnly="true" msdata:Expression="ISNULL(IIF(LEN(CWECode) &lt; 4 + 1 OR (SUBSTRING(CWECode, 1, 4) &lt;&gt; 'CWE-'), 4294967295, CONVERT(SUBSTRING(CWECode, 4 + 1, LEN(CWECode) - 4), 'System.UInt32')), 4294967295)" type="xs:unsignedInt" use="prohibited" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+      <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//PVS-Studio_Analysis_Log" />
+        <xs:field xpath="Line" />
+        <xs:field xpath="Message" />
+        <xs:field xpath="File" />
+      </xs:unique>
+    </xs:element>
+  </xs:schema>
+  <Solution_Path>
+    <SolutionPath />
+    <SolutionVersion>Independent</SolutionVersion>
+    <PlogVersion>5</PlogVersion>
+    <ModificationDate>2019-04-25T16:04:51.5332555Z</ModificationDate>
+  </Solution_Path>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>1</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>Dereferencing of the null pointer 'p' might take place.</Message>
+    <Project />
+    <ShortFile>trees.cpp</ShortFile>
+    <Line>242</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\std\trees.cpp</File>
+    <CodePrev>155897177</CodePrev>
+    <CodeCurrent>98143341</CodeCurrent>
+    <CodeNext>2715109495</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-476</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>2</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>Dereferencing of the null pointer 'g' might take place.</Message>
+    <Project />
+    <ShortFile>trees.cpp</ShortFile>
+    <Line>330</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\std\trees.cpp</File>
+    <CodePrev>1101</CodePrev>
+    <CodeCurrent>155757943</CodeCurrent>
+    <CodeNext>1837471922</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-476</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>3</DefaultOrder>
+    <ErrorCode>V617</ErrorCode>
+    <Message>Consider inspecting the condition. The '1' argument of the '|' bitwise operation contains a non-zero value.</Message>
+    <Project />
+    <ShortFile>ata.cpp</ShortFile>
+    <Line>58</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\ata.cpp</File>
+    <CodePrev>3389496316</CodePrev>
+    <CodeCurrent>1378645239</CodeCurrent>
+    <CodeNext>11314209</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-480</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>4</DefaultOrder>
+    <ErrorCode>V630</ErrorCode>
+    <Message>The 'malloc' function is used to allocate memory for an array of objects which are classes containing constructors and destructors.</Message>
+    <Project />
+    <ShortFile>drives.cpp</ShortFile>
+    <Line>11</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\drives.cpp</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>867172411</CodeCurrent>
+    <CodeNext>3598505387</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>5</DefaultOrder>
+    <ErrorCode>V512</ErrorCode>
+    <Message>A call of the 'memset' function will lead to overflow of the buffer 'cbw'.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>174</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>338266602</CodePrev>
+    <CodeCurrent>5202293</CodeCurrent>
+    <CodeNext>77583</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-119</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>6</DefaultOrder>
+    <ErrorCode>V773</ErrorCode>
+    <Message>The function was exited without releasing the 'endpointIn' pointer. A memory leak is possible.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>531</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>208836728</CodePrev>
+    <CodeCurrent>2688719607</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>531,507</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-401</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>7</DefaultOrder>
+    <ErrorCode>V773</ErrorCode>
+    <Message>The function was exited without releasing the 'endpointIn' pointer. A memory leak is possible.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>527</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>208836728</CodePrev>
+    <CodeCurrent>2688719607</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>527,503</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-401</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>8</DefaultOrder>
+    <ErrorCode>V512</ErrorCode>
+    <Message>A call of the 'memset' function will lead to overflow of the buffer 'cbw'.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>438</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>180103</CodePrev>
+    <CodeCurrent>5202297</CodeCurrent>
+    <CodeNext>2470865</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-193</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>9</DefaultOrder>
+    <ErrorCode>V641</ErrorCode>
+    <Message>The size of the allocated memory buffer is not a multiple of the element size.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>547</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2025954407</CodePrev>
+    <CodeCurrent>2088247393</CodeCurrent>
+    <CodeNext>1115978200</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>10</DefaultOrder>
+    <ErrorCode>V641</ErrorCode>
+    <Message>The size of the allocated memory buffer is not a multiple of the element size.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>544</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2025954407</CodePrev>
+    <CodeCurrent>2088247393</CodeCurrent>
+    <CodeNext>1115978200</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>11</DefaultOrder>
+    <ErrorCode>V773</ErrorCode>
+    <Message>The function was exited without releasing the 'endpointIn' pointer. A memory leak is possible.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>521</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>208836728</CodePrev>
+    <CodeCurrent>2688719607</CodeCurrent>
+    <CodeNext>57757</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>521,503</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-401</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>12</DefaultOrder>
+    <ErrorCode>V512</ErrorCode>
+    <Message>A call of the 'memset' function will lead to overflow of the buffer 'cbw'.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>285</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>185357081</CodePrev>
+    <CodeCurrent>5202293</CodeCurrent>
+    <CodeNext>77583</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-119</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>13</DefaultOrder>
+    <ErrorCode>V641</ErrorCode>
+    <Message>The size of the allocated memory buffer is not a multiple of the element size.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>545</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2025954407</CodePrev>
+    <CodeCurrent>2088247393</CodeCurrent>
+    <CodeNext>1115978200</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>14</DefaultOrder>
+    <ErrorCode>V512</ErrorCode>
+    <Message>A call of the 'memset' function will lead to overflow of the buffer 'cbw'.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>403</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>180103</CodePrev>
+    <CodeCurrent>5202297</CodeCurrent>
+    <CodeNext>2470865</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-193</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>15</DefaultOrder>
+    <ErrorCode>V641</ErrorCode>
+    <Message>The size of the allocated memory buffer is not a multiple of the element size.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>551</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2025954407</CodePrev>
+    <CodeCurrent>2088247393</CodeCurrent>
+    <CodeNext>1115978200</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>16</DefaultOrder>
+    <ErrorCode>V512</ErrorCode>
+    <Message>A call of the 'memset' function will lead to overflow of the buffer 'cbw'.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>368</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>4393285</CodePrev>
+    <CodeCurrent>5202293</CodeCurrent>
+    <CodeNext>2470865</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-119</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>17</DefaultOrder>
+    <ErrorCode>V773</ErrorCode>
+    <Message>The function was exited without releasing the 'endpointIn' pointer. A memory leak is possible.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>496</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>208836728</CodePrev>
+    <CodeCurrent>2688719607</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>496,472</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-401</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>18</DefaultOrder>
+    <ErrorCode>V512</ErrorCode>
+    <Message>A call of the 'memset' function will lead to overflow of the buffer 'cbw'.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>110</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2181380196</CodePrev>
+    <CodeCurrent>5202293</CodeCurrent>
+    <CodeNext>77583</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-119</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>19</DefaultOrder>
+    <ErrorCode>V512</ErrorCode>
+    <Message>A call of the 'memset' function will lead to overflow of the buffer 'cbw'.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>434</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>180103</CodePrev>
+    <CodeCurrent>5202297</CodeCurrent>
+    <CodeNext>2470865</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-193</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>20</DefaultOrder>
+    <ErrorCode>V641</ErrorCode>
+    <Message>The size of the allocated memory buffer is not a multiple of the element size.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>516</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2025954407</CodePrev>
+    <CodeCurrent>2088247393</CodeCurrent>
+    <CodeNext>1115978200</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>21</DefaultOrder>
+    <ErrorCode>V641</ErrorCode>
+    <Message>The size of the allocated memory buffer is not a multiple of the element size.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>543</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2025954407</CodePrev>
+    <CodeCurrent>2088247393</CodeCurrent>
+    <CodeNext>1115978200</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>22</DefaultOrder>
+    <ErrorCode>V512</ErrorCode>
+    <Message>A call of the 'memset' function will lead to overflow of the buffer 'cbw'.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>44</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>185357081</CodePrev>
+    <CodeCurrent>5202293</CodeCurrent>
+    <CodeNext>77583</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-119</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>23</DefaultOrder>
+    <ErrorCode>V773</ErrorCode>
+    <Message>The function was exited without releasing the 'endpointIn' pointer. A memory leak is possible.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>522</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>208836728</CodePrev>
+    <CodeCurrent>2688719607</CodeCurrent>
+    <CodeNext>57757</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>522,503</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-401</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>24</DefaultOrder>
+    <ErrorCode>V773</ErrorCode>
+    <Message>The function was exited without releasing the 't' pointer. A memory leak is possible.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>539</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>3012046764</CodePrev>
+    <CodeCurrent>11235</CodeCurrent>
+    <CodeNext>361991</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>539,532</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-401</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>25</DefaultOrder>
+    <ErrorCode>V630</ErrorCode>
+    <Message>The 'malloc' function is used to allocate memory for an array of objects which are classes containing constructors and destructors.</Message>
+    <Project />
+    <ShortFile>storage.cpp</ShortFile>
+    <Line>9</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\storage.cpp</File>
+    <CodePrev>22650681</CodePrev>
+    <CodeCurrent>2009335850</CodeCurrent>
+    <CodeNext>1543080988</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>26</DefaultOrder>
+    <ErrorCode>V630</ErrorCode>
+    <Message>The 'malloc' function is used to allocate memory for an array of objects which are classes containing constructors and destructors.</Message>
+    <Project />
+    <ShortFile>storage.cpp</ShortFile>
+    <Line>11</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\storage.cpp</File>
+    <CodePrev>1543080988</CodePrev>
+    <CodeCurrent>2192975068</CodeCurrent>
+    <CodeNext>2626005862</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>27</DefaultOrder>
+    <ErrorCode>V576</ErrorCode>
+    <Message>Incorrect format. Consider checking the second actual argument of the 'printf' function. To print the value of pointer the '%p' should be used.</Message>
+    <Project />
+    <ShortFile>ehci.cpp</ShortFile>
+    <Line>362</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\ehci.cpp</File>
+    <CodePrev>793651559</CodePrev>
+    <CodeCurrent>758061569</CodeCurrent>
+    <CodeNext>1204050227</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-686</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>28</DefaultOrder>
+    <ErrorCode>V576</ErrorCode>
+    <Message>Incorrect format. Consider checking the second actual argument of the 'printf' function. To print the value of pointer the '%p' should be used.</Message>
+    <Project />
+    <ShortFile>ehci.cpp</ShortFile>
+    <Line>359</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\ehci.cpp</File>
+    <CodePrev>793651559</CodePrev>
+    <CodeCurrent>758061569</CodeCurrent>
+    <CodeNext>1204050227</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-686</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>29</DefaultOrder>
+    <ErrorCode>V641</ErrorCode>
+    <Message>The size of the allocated memory buffer is not a multiple of the element size.</Message>
+    <Project />
+    <ShortFile>ehci.cpp</ShortFile>
+    <Line>739</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\ehci.cpp</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>2695718956</CodeCurrent>
+    <CodeNext>2698343980</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>30</DefaultOrder>
+    <ErrorCode>V576</ErrorCode>
+    <Message>Incorrect format. Consider checking the second actual argument of the 'printf' function. To print the value of pointer the '%p' should be used.</Message>
+    <Project />
+    <ShortFile>ehci.cpp</ShortFile>
+    <Line>361</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\ehci.cpp</File>
+    <CodePrev>793651559</CodePrev>
+    <CodeCurrent>758061569</CodeCurrent>
+    <CodeNext>1204050227</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-686</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>31</DefaultOrder>
+    <ErrorCode>V641</ErrorCode>
+    <Message>The size of the allocated memory buffer is not a multiple of the element size.</Message>
+    <Project />
+    <ShortFile>ehci.cpp</ShortFile>
+    <Line>742</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\ehci.cpp</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>2695718956</CodeCurrent>
+    <CodeNext>2698343980</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>32</DefaultOrder>
+    <ErrorCode>V641</ErrorCode>
+    <Message>The size of the allocated memory buffer is not a multiple of the element size.</Message>
+    <Project />
+    <ShortFile>ehci.cpp</ShortFile>
+    <Line>741</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\ehci.cpp</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>2695718956</CodeCurrent>
+    <CodeNext>2698343980</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>1</Level>
+    <DefaultOrder>33</DefaultOrder>
+    <ErrorCode>V743</ErrorCode>
+    <Message>The memory areas must not overlap. Use 'memmove' function.</Message>
+    <Project />
+    <ShortFile>video.cpp</ShortFile>
+    <Line>8</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\video.cpp</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1328847720</CodeCurrent>
+    <CodeNext>1803680074</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-475</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>34</DefaultOrder>
+    <ErrorCode>V730</ErrorCode>
+    <Message>Not all members of a class are initialized inside the compiler generated constructor. Consider inspecting: device, cache, last_access.</Message>
+    <Project />
+    <ShortFile>storage.h</ShortFile>
+    <Line>22</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\includes\storage\storage.h</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>9191781</CodeCurrent>
+    <CodeNext>180213</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-457</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>35</DefaultOrder>
+    <ErrorCode>V730</ErrorCode>
+    <Message>Not all members of a class are initialized inside the compiler generated constructor. Consider inspecting: LBA, count, buf.</Message>
+    <Project />
+    <ShortFile>storage.h</ShortFile>
+    <Line>15</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\includes\storage\storage.h</File>
+    <CodePrev>74117050</CodePrev>
+    <CodeCurrent>757207</CodeCurrent>
+    <CodeNext>148129</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-457</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>36</DefaultOrder>
+    <ErrorCode>V1002</ErrorCode>
+    <Message>The 'iterator' class, containing pointers, constructor and destructor, is copied by the automatically generated copy constructor.</Message>
+    <Project />
+    <ShortFile>map.h</ShortFile>
+    <Line>53</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\std\map.h</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>2118009</CodeCurrent>
+    <CodeNext>5559</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-665</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>37</DefaultOrder>
+    <ErrorCode>V519</ErrorCode>
+    <Message>The 'it' variable is assigned values twice successively. Perhaps this is a mistake. Check lines: 108, 109.</Message>
+    <Project />
+    <ShortFile>map.h</ShortFile>
+    <Line>109</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\std\map.h</File>
+    <CodePrev>2172172521</CodePrev>
+    <CodeCurrent>11863</CodeCurrent>
+    <CodeNext>22023</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>108,109</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-563</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>38</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 'p'. Check lines: 124, 123.</Message>
+    <Project />
+    <ShortFile>map.h</ShortFile>
+    <Line>124</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\std\map.h</File>
+    <CodePrev>274735132</CodePrev>
+    <CodeCurrent>2277020896</CodeCurrent>
+    <CodeNext>3176720571</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>124,123</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>39</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 'p'. Check lines: 136, 135.</Message>
+    <Project />
+    <ShortFile>map.h</ShortFile>
+    <Line>136</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\std\map.h</File>
+    <CodePrev>274735132</CodePrev>
+    <CodeCurrent>2277020896</CodeCurrent>
+    <CodeNext>407641776</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>136,135</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>40</DefaultOrder>
+    <ErrorCode>V641</ErrorCode>
+    <Message>The size of the '&amp; cmdtbl-&gt;cfis' buffer is not a multiple of the element size of the type 'FIS_REG_H2D'.</Message>
+    <Project />
+    <ShortFile>ahci.cpp</ShortFile>
+    <Line>274</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\ahci.cpp</File>
+    <CodePrev>305316</CodePrev>
+    <CodeCurrent>1957901044</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>41</DefaultOrder>
+    <ErrorCode>V641</ErrorCode>
+    <Message>The size of the '&amp; cmdtbl-&gt;cfis' buffer is not a multiple of the element size of the type 'FIS_REG_H2D'.</Message>
+    <Project />
+    <ShortFile>ahci.cpp</ShortFile>
+    <Line>117</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\ahci.cpp</File>
+    <CodePrev>305316</CodePrev>
+    <CodeCurrent>1957901044</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>42</DefaultOrder>
+    <ErrorCode>V641</ErrorCode>
+    <Message>The size of the 'buf' buffer is not a multiple of the element size of the type 'identify_data'.</Message>
+    <Project />
+    <ShortFile>ahci.cpp</ShortFile>
+    <Line>413</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\ahci.cpp</File>
+    <CodePrev>2357522352</CodePrev>
+    <CodeCurrent>523194790</CodeCurrent>
+    <CodeNext>40239283</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>43</DefaultOrder>
+    <ErrorCode>V641</ErrorCode>
+    <Message>The size of the 'buf' buffer is not a multiple of the element size of the type 'identify_data'.</Message>
+    <Project />
+    <ShortFile>ahci.cpp</ShortFile>
+    <Line>410</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\ahci.cpp</File>
+    <CodePrev>2095865276</CodePrev>
+    <CodeCurrent>2105978729</CodeCurrent>
+    <CodeNext>96323323</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>44</DefaultOrder>
+    <ErrorCode>V641</ErrorCode>
+    <Message>The size of the '&amp; cmdtbl-&gt;cfis' buffer is not a multiple of the element size of the type 'FIS_REG_H2D'.</Message>
+    <Project />
+    <ShortFile>ahci.cpp</ShortFile>
+    <Line>196</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\ahci.cpp</File>
+    <CodePrev>305316</CodePrev>
+    <CodeCurrent>1957901044</CodeCurrent>
+    <CodeNext>3011734906</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>45</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 'buf'. Check lines: 400, 399.</Message>
+    <Project />
+    <ShortFile>ahci.cpp</ShortFile>
+    <Line>400</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\ahci.cpp</File>
+    <CodePrev>2101537203</CodePrev>
+    <CodeCurrent>19237</CodeCurrent>
+    <CodeNext>18471</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>400,399</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>46</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 'ad'. Check lines: 410, 409.</Message>
+    <Project />
+    <ShortFile>ahci.cpp</ShortFile>
+    <Line>410</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\ahci.cpp</File>
+    <CodePrev>2095865276</CodePrev>
+    <CodeCurrent>2105978729</CodeCurrent>
+    <CodeNext>96323323</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>410,409</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>47</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 'device_names'. Check lines: 12, 11.</Message>
+    <Project />
+    <ShortFile>drives.cpp</ShortFile>
+    <Line>12</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\drives.cpp</File>
+    <CodePrev>867172411</CodePrev>
+    <CodeCurrent>3598505387</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>12,11</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>48</DefaultOrder>
+    <ErrorCode>V591</ErrorCode>
+    <Message>Non-void function should return a value.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>571</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>3363845841</CodePrev>
+    <CodeCurrent>125</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-393</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>49</DefaultOrder>
+    <ErrorCode>V575</ErrorCode>
+    <Message>The potential null pointer is passed into 'memset' function. Inspect the first argument. Check lines: 474, 473.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>474</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2740632405</CodePrev>
+    <CodeCurrent>914573342</CodeCurrent>
+    <CodeNext>68811751</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>474,473</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>50</DefaultOrder>
+    <ErrorCode>V591</ErrorCode>
+    <Message>Non-void function should return a value.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>567</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>3363845841</CodePrev>
+    <CodeCurrent>125</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-393</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>51</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 'endpointOut'. Check lines: 486, 485.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>486</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2943601493</CodePrev>
+    <CodeCurrent>137399271</CodeCurrent>
+    <CodeNext>595898333</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>486,485</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>52</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer '(unsigned short *) b'. Check lines: 564, 562.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>564</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>42840700</CodePrev>
+    <CodeCurrent>2573204667</CodeCurrent>
+    <CodeNext>9681</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>564,562</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>53</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 't'. Check lines: 510, 505.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>510</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2426531555</CodePrev>
+    <CodeCurrent>6229</CodeCurrent>
+    <CodeNext>361991</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>510,505</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>54</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 'storage'. Check lines: 538, 534.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>538</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>6229</CodePrev>
+    <CodeCurrent>361991</CodeCurrent>
+    <CodeNext>46377659</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>538,534</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>55</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 'storage'. Check lines: 511, 507.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>511</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>6229</CodePrev>
+    <CodeCurrent>361991</CodeCurrent>
+    <CodeNext>46377659</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>511,507</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>56</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer '(unsigned short *) b'. Check lines: 568, 566.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>568</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>42840700</CodePrev>
+    <CodeCurrent>2573204667</CodeCurrent>
+    <CodeNext>9681</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>568,566</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>57</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 'endpointOut'. Check lines: 514, 512.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>514</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>914573342</CodePrev>
+    <CodeCurrent>4224258810</CodeCurrent>
+    <CodeNext>1585873276</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>514,512</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>58</DefaultOrder>
+    <ErrorCode>V575</ErrorCode>
+    <Message>The potential null pointer is passed into 'memset' function. Inspect the first argument. Check lines: 505, 504.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>505</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2740632405</CodePrev>
+    <CodeCurrent>914573342</CodeCurrent>
+    <CodeNext>4224307309</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>505,504</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>59</DefaultOrder>
+    <ErrorCode>V779</ErrorCode>
+    <Message>Unreachable code detected. It is possible that an error is present.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>503</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>1226010770</CodePrev>
+    <CodeCurrent>3805163518</CodeCurrent>
+    <CodeNext>2740632405</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-561</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>60</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer '(unsigned short *) b'. Check lines: 537, 535.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>537</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>42840700</CodePrev>
+    <CodeCurrent>2573204667</CodeCurrent>
+    <CodeNext>9681</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>537,535</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>61</DefaultOrder>
+    <ErrorCode>V591</ErrorCode>
+    <Message>Non-void function should return a value.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>540</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>3363845841</CodePrev>
+    <CodeCurrent>125</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-393</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>62</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 't'. Check lines: 537, 532.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>537</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2426531555</CodePrev>
+    <CodeCurrent>6229</CodeCurrent>
+    <CodeNext>361991</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>537,532</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>63</DefaultOrder>
+    <ErrorCode>V591</ErrorCode>
+    <Message>Non-void function should return a value.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>575</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>3363845841</CodePrev>
+    <CodeCurrent>125</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-393</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>64</DefaultOrder>
+    <ErrorCode>V779</ErrorCode>
+    <Message>Unreachable code detected. It is possible that an error is present.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>540</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>11235</CodePrev>
+    <CodeCurrent>361991</CodeCurrent>
+    <CodeNext>46377659</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-561</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>65</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 'endpointOut'. Check lines: 513, 512.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>513</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2943601493</CodePrev>
+    <CodeCurrent>4224258810</CodeCurrent>
+    <CodeNext>1585873276</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>513,512</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>66</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 'endpointOut'. Check lines: 517, 516.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>517</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2943601493</CodePrev>
+    <CodeCurrent>137399271</CodeCurrent>
+    <CodeNext>595898333</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>517,516</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>67</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 'storage'. Check lines: 546, 542.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>546</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>6229</CodePrev>
+    <CodeCurrent>361991</CodeCurrent>
+    <CodeNext>46377659</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>546,542</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>68</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 't'. Check lines: 545, 540.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>545</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2426531555</CodePrev>
+    <CodeCurrent>6229</CodeCurrent>
+    <CodeNext>361991</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>545,540</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>69</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 'endpointOut'. Check lines: 521, 520.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>521</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2943601493</CodePrev>
+    <CodeCurrent>137399271</CodeCurrent>
+    <CodeNext>595898333</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>521,520</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>70</DefaultOrder>
+    <ErrorCode>V575</ErrorCode>
+    <Message>The potential null pointer is passed into 'memset' function. Inspect the first argument. Check lines: 509, 508.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>509</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2740632405</CodePrev>
+    <CodeCurrent>914573342</CodeCurrent>
+    <CodeNext>68811751</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>509,508</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>71</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 't'. Check lines: 541, 536.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>541</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2426531555</CodePrev>
+    <CodeCurrent>6229</CodeCurrent>
+    <CodeNext>361991</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>541,536</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>72</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer '(unsigned short *) b'. Check lines: 565, 563.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>565</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>42840700</CodePrev>
+    <CodeCurrent>2573204667</CodeCurrent>
+    <CodeNext>9681</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>565,563</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>73</DefaultOrder>
+    <ErrorCode>V591</ErrorCode>
+    <Message>Non-void function should return a value.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>568</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>3363845841</CodePrev>
+    <CodeCurrent>125</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-393</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>74</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 'storage'. Check lines: 539, 533.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>539</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>23267</CodePrev>
+    <CodeCurrent>361991</CodeCurrent>
+    <CodeNext>46377659</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>539,533</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>75</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 't'. Check lines: 536, 531.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>536</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2426531555</CodePrev>
+    <CodeCurrent>6229</CodeCurrent>
+    <CodeNext>3012046813</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>536,531</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>76</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer '(unsigned short *) b'. Check lines: 572, 570.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>572</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>42840700</CodePrev>
+    <CodeCurrent>2573204667</CodeCurrent>
+    <CodeNext>9681</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>572,570</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>77</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 'storage'. Check lines: 542, 538.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>542</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>6229</CodePrev>
+    <CodeCurrent>361991</CodeCurrent>
+    <CodeNext>46377659</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>542,538</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>78</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 'scb'. Check lines: 63, 62.</Message>
+    <Project />
+    <ShortFile>storage.cpp</ShortFile>
+    <Line>63</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\storage.cpp</File>
+    <CodePrev>3731735405</CodePrev>
+    <CodeCurrent>2034866744</CodeCurrent>
+    <CodeNext>3909118625</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>63,62</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>79</DefaultOrder>
+    <ErrorCode>V575</ErrorCode>
+    <Message>The potential null pointer is passed into 'memcpy' function. Inspect the first argument. Check lines: 64, 63.</Message>
+    <Project />
+    <ShortFile>storage.cpp</ShortFile>
+    <Line>64</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\storage.cpp</File>
+    <CodePrev>2034866744</CodePrev>
+    <CodeCurrent>3909118625</CodeCurrent>
+    <CodeNext>391841</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>64,63</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>80</DefaultOrder>
+    <ErrorCode>V614</ErrorCode>
+    <Message>Potentially uninitialized variable 'digit' used.</Message>
+    <Project />
+    <ShortFile>string.cpp</ShortFile>
+    <Line>373</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\string.cpp</File>
+    <CodePrev>17514713</CodePrev>
+    <CodeCurrent>321183</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-457</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>81</DefaultOrder>
+    <ErrorCode>V591</ErrorCode>
+    <Message>Non-void function should return a value.</Message>
+    <Project />
+    <ShortFile>string.cpp</ShortFile>
+    <Line>1065</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\string.cpp</File>
+    <CodePrev>2719</CodePrev>
+    <CodeCurrent>125</CodeCurrent>
+    <CodeNext>1121473471</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-393</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>82</DefaultOrder>
+    <ErrorCode>V591</ErrorCode>
+    <Message>Non-void function should return a value.</Message>
+    <Project />
+    <ShortFile>string.cpp</ShortFile>
+    <Line>1059</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\string.cpp</File>
+    <CodePrev>11801</CodePrev>
+    <CodeCurrent>125</CodeCurrent>
+    <CodeNext>3213066791</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-393</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>83</DefaultOrder>
+    <ErrorCode>V614</ErrorCode>
+    <Message>Potentially uninitialized variable 'digit' used.</Message>
+    <Project />
+    <ShortFile>string.cpp</ShortFile>
+    <Line>417</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\string.cpp</File>
+    <CodePrev>17514713</CodePrev>
+    <CodeCurrent>321183</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-457</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>84</DefaultOrder>
+    <ErrorCode>V614</ErrorCode>
+    <Message>Potentially uninitialized variable 'base' used. Consider checking the third actual argument of the 'llbtoa' function.</Message>
+    <Project />
+    <ShortFile>string.cpp</ShortFile>
+    <Line>635</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\string.cpp</File>
+    <CodePrev>641914103</CodePrev>
+    <CodeCurrent>2101</CodeCurrent>
+    <CodeNext>539</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-457</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>85</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>There might be dereferencing of a potential null pointer 'hub'. Check lines: 289, 288.</Message>
+    <Project />
+    <ShortFile>hub.cpp</ShortFile>
+    <Line>289</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\hub.cpp</File>
+    <CodePrev>2101083210</CodePrev>
+    <CodeCurrent>319539</CodeCurrent>
+    <CodeNext>1286073</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>289,288</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-690</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>86</DefaultOrder>
+    <ErrorCode>V575</ErrorCode>
+    <Message>The potential null pointer is passed into 'memcpy' function. Inspect the first argument. Check lines: 315, 314.</Message>
+    <Project />
+    <ShortFile>usbd.cpp</ShortFile>
+    <Line>315</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\usbd.cpp</File>
+    <CodePrev>3520452880</CodePrev>
+    <CodeCurrent>3473469881</CodeCurrent>
+    <CodeNext>8758191</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>315,314</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>87</DefaultOrder>
+    <ErrorCode>V575</ErrorCode>
+    <Message>The potential null pointer is passed into 'memcpy' function. Inspect the first argument. Check lines: 240, 239.</Message>
+    <Project />
+    <ShortFile>usbd.cpp</ShortFile>
+    <Line>240</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\usbd.cpp</File>
+    <CodePrev>2854581098</CodePrev>
+    <CodeCurrent>3473865611</CodeCurrent>
+    <CodeNext>4817839</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>240,239</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>88</DefaultOrder>
+    <ErrorCode>V575</ErrorCode>
+    <Message>The potential null pointer is passed into 'memcpy' function. Inspect the first argument. Check lines: 263, 262.</Message>
+    <Project />
+    <ShortFile>usbd.cpp</ShortFile>
+    <Line>263</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\usbd.cpp</File>
+    <CodePrev>3520452880</CodePrev>
+    <CodeCurrent>3473469881</CodeCurrent>
+    <CodeNext>8758191</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>263,262</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>89</DefaultOrder>
+    <ErrorCode>V575</ErrorCode>
+    <Message>The potential null pointer is passed into 'memcpy' function. Inspect the first argument. Check lines: 292, 291.</Message>
+    <Project />
+    <ShortFile>usbd.cpp</ShortFile>
+    <Line>292</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\usbd.cpp</File>
+    <CodePrev>2854581098</CodePrev>
+    <CodeCurrent>3473865611</CodeCurrent>
+    <CodeNext>4817839</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>292,291</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>2</Level>
+    <DefaultOrder>90</DefaultOrder>
+    <ErrorCode>V519</ErrorCode>
+    <Message>The 'attr' variable is assigned values twice successively. Perhaps this is a mistake. Check lines: 133, 135.</Message>
+    <Project />
+    <ShortFile>video.cpp</ShortFile>
+    <Line>135</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\video.cpp</File>
+    <CodePrev>3860945846</CodePrev>
+    <CodeCurrent>9375</CodeCurrent>
+    <CodeNext>2956141</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>133,135</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-563</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>91</DefaultOrder>
+    <ErrorCode>V730</ErrorCode>
+    <Message>Not all members of a class are initialized inside the compiler generated constructor. Consider inspecting: port, drive, multiple_count, sector_size, serial, media_serial, ...</Message>
+    <Project />
+    <ShortFile>ata.h</ShortFile>
+    <Line>58</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\includes\storage\ata.h</File>
+    <CodePrev>833970</CodePrev>
+    <CodeCurrent>1173697</CodeCurrent>
+    <CodeNext>5816</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-457</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>92</DefaultOrder>
+    <ErrorCode>V566</ErrorCode>
+    <Message>The integer constant is converted to pointer. Possibly an error or a bad coding style: (unsigned int *)(0x9800 + 2)</Message>
+    <Project />
+    <ShortFile>interrupts.cpp</ShortFile>
+    <Line>39</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\interrupts.cpp</File>
+    <CodePrev>602025851</CodePrev>
+    <CodeCurrent>803966378</CodeCurrent>
+    <CodeNext>235533</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-587</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>93</DefaultOrder>
+    <ErrorCode>V566</ErrorCode>
+    <Message>The integer constant is converted to pointer. Possibly an error or a bad coding style: (unsigned short *) 0x9800</Message>
+    <Project />
+    <ShortFile>interrupts.cpp</ShortFile>
+    <Line>38</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\interrupts.cpp</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>602025851</CodeCurrent>
+    <CodeNext>803966378</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-587</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>94</DefaultOrder>
+    <ErrorCode>V566</ErrorCode>
+    <Message>The integer constant is converted to pointer. Possibly an error or a bad coding style: (unsigned int *) 0x200000</Message>
+    <Project />
+    <ShortFile>memory.cpp</ShortFile>
+    <Line>8</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\memory\memory.cpp</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>1979574221</CodeCurrent>
+    <CodeNext>77071</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-587</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>95</DefaultOrder>
+    <ErrorCode>V566</ErrorCode>
+    <Message>The integer constant is converted to pointer. Possibly an error or a bad coding style: (void *) 0x200000</Message>
+    <Project />
+    <ShortFile>memory.cpp</ShortFile>
+    <Line>3</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\memory\memory.cpp</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>3170988132</CodeCurrent>
+    <CodeNext>10861639</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-587</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>96</DefaultOrder>
+    <ErrorCode>V630</ErrorCode>
+    <Message>The 'malloc' function is used to allocate memory for an array of objects which are classes containing constructors.</Message>
+    <Project />
+    <ShortFile>map.h</ShortFile>
+    <Line>123</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\std\map.h</File>
+    <CodePrev>226047421</CodePrev>
+    <CodeCurrent>274735132</CodeCurrent>
+    <CodeNext>2277020896</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>97</DefaultOrder>
+    <ErrorCode>V630</ErrorCode>
+    <Message>The 'malloc' function is used to allocate memory for an array of objects which are classes containing constructors.</Message>
+    <Project />
+    <ShortFile>map.h</ShortFile>
+    <Line>135</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\std\map.h</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>274735132</CodeCurrent>
+    <CodeNext>2277020896</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>98</DefaultOrder>
+    <ErrorCode>V601</ErrorCode>
+    <Message>The 'true' value is implicitly cast to the integer type.</Message>
+    <Project />
+    <ShortFile>ahci.cpp</ShortFile>
+    <Line>319</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\ahci.cpp</File>
+    <CodePrev>125</CodePrev>
+    <CodeCurrent>88117</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>99</DefaultOrder>
+    <ErrorCode>V601</ErrorCode>
+    <Message>The 'false' value is implicitly cast to the integer type.</Message>
+    <Project />
+    <ShortFile>ahci.cpp</ShortFile>
+    <Line>248</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\ahci.cpp</File>
+    <CodePrev>2552396285</CodePrev>
+    <CodeCurrent>757777165</CodeCurrent>
+    <CodeNext>2716683785</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>100</DefaultOrder>
+    <ErrorCode>V601</ErrorCode>
+    <Message>The 'true' value is implicitly cast to the integer type.</Message>
+    <Project />
+    <ShortFile>ata.cpp</ShortFile>
+    <Line>206</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\ata.cpp</File>
+    <CodePrev>352887</CodePrev>
+    <CodeCurrent>22654805</CodeCurrent>
+    <CodeNext>1342078203</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>101</DefaultOrder>
+    <ErrorCode>V601</ErrorCode>
+    <Message>The 'false' value is implicitly cast to the integer type.</Message>
+    <Project />
+    <ShortFile>ata.cpp</ShortFile>
+    <Line>200</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\ata.cpp</File>
+    <CodePrev>2828739</CodePrev>
+    <CodeCurrent>45309389</CodeCurrent>
+    <CodeNext>352887</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>102</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointIn' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>434</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>513447914</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>103</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointOut' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>434</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>513447914</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>104</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'cbw' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>436</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>513447914</CodePrev>
+    <CodeCurrent>4393285</CodeCurrent>
+    <CodeNext>180103</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>105</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointOut' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>370</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>4393285</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>106</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointIn' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>370</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>4393285</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>107</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 't' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>369</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>31556339</CodePrev>
+    <CodeCurrent>32436691</CodeCurrent>
+    <CodeNext>710761504</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>108</DefaultOrder>
+    <ErrorCode>V729</ErrorCode>
+    <Message>Function body contains the 'retry_read' label that is not used by any 'goto' statements.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>437</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>4393285</CodePrev>
+    <CodeCurrent>180103</CodeCurrent>
+    <CodeNext>5202297</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>109</DefaultOrder>
+    <ErrorCode>V525</ErrorCode>
+    <Message>The code contains the collection of similar blocks. Check items 'endpointOut', 'endpointIn', 'endpointIn' in lines 300, 313, 321.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>300</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2390203</CodePrev>
+    <CodeCurrent>53271615</CodeCurrent>
+    <CodeNext>26167</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>300,313,321</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-682</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>110</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'cbw' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>288</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>710761504</CodePrev>
+    <CodeCurrent>185357081</CodeCurrent>
+    <CodeNext>5202293</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>111</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointOut' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>287</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>185357081</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>112</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointIn' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>287</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>185357081</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>113</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'cbw' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>173</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>338266602</CodeCurrent>
+    <CodeNext>5202293</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>114</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'cbw' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>241</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>710761504</CodePrev>
+    <CodeCurrent>185357081</CodeCurrent>
+    <CodeNext>77583</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>115</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'cbw' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>371</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>710761504</CodePrev>
+    <CodeCurrent>4393285</CodeCurrent>
+    <CodeNext>5202293</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>116</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 't' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>433</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>379494639</CodePrev>
+    <CodeCurrent>32436691</CodeCurrent>
+    <CodeNext>710761504</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>117</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 't' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>235</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>31556339</CodePrev>
+    <CodeCurrent>32436691</CodeCurrent>
+    <CodeNext>710761504</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>118</DefaultOrder>
+    <ErrorCode>V525</ErrorCode>
+    <Message>The code contains the collection of similar blocks. Check items 'endpointOut', 'endpointIn', 'endpointIn' in lines 296, 309, 317.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>296</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2390203</CodePrev>
+    <CodeCurrent>53271615</CodeCurrent>
+    <CodeNext>26167</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>296,309,317</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-682</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>119</DefaultOrder>
+    <ErrorCode>V576</ErrorCode>
+    <Message>Incorrect format. Consider checking the second actual argument of the 'printf' function. The integer argument of 32-bit size is expected.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>532</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>125</CodePrev>
+    <CodeCurrent>4103544714</CodeCurrent>
+    <CodeNext>3819686371</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>120</DefaultOrder>
+    <ErrorCode>V729</ErrorCode>
+    <Message>Function body contains the 'retry_read' label that is not used by any 'goto' statements.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>402</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>4393285</CodePrev>
+    <CodeCurrent>180103</CodeCurrent>
+    <CodeNext>5202297</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>121</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'cbw' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>401</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>513447914</CodePrev>
+    <CodeCurrent>4393285</CodeCurrent>
+    <CodeNext>180103</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>122</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointOut' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>399</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>513447914</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>123</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointIn' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>399</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>513447914</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>124</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 't' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>398</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>379494639</CodePrev>
+    <CodeCurrent>32436691</CodeCurrent>
+    <CodeNext>710761504</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>125</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'cbw' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>336</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>710761504</CodePrev>
+    <CodeCurrent>4393285</CodeCurrent>
+    <CodeNext>5202293</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>126</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointOut' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>335</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>4393285</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>127</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointIn' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>335</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>4393285</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>128</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 't' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>334</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>31556339</CodePrev>
+    <CodeCurrent>32436691</CodeCurrent>
+    <CodeNext>710761504</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>129</DefaultOrder>
+    <ErrorCode>V525</ErrorCode>
+    <Message>The code contains the collection of similar blocks. Check items 'endpointOut', 'endpointIn', 'endpointIn' in lines 265, 278, 286.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>265</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>2390203</CodePrev>
+    <CodeCurrent>53271615</CodeCurrent>
+    <CodeNext>26167</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>265,278,286</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-682</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>130</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'cbw' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>253</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>710761504</CodePrev>
+    <CodeCurrent>185357081</CodeCurrent>
+    <CodeNext>5202293</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>131</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointOut' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>252</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>185357081</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>132</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointIn' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>252</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>185357081</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>133</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 't' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>251</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>31556339</CodePrev>
+    <CodeCurrent>32436691</CodeCurrent>
+    <CodeNext>710761504</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>134</DefaultOrder>
+    <ErrorCode>V576</ErrorCode>
+    <Message>Incorrect format. Consider checking the second actual argument of the 'printf' function. The integer argument of 32-bit size is expected.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>563</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>125</CodePrev>
+    <CodeCurrent>4103544714</CodeCurrent>
+    <CodeNext>3819686371</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>135</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointOut' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>240</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>185357081</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>136</DefaultOrder>
+    <ErrorCode>V576</ErrorCode>
+    <Message>Incorrect format. Consider checking the second actual argument of the 'printf' function. The integer argument of 32-bit size is expected.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>567</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>125</CodePrev>
+    <CodeCurrent>4103544714</CodeCurrent>
+    <CodeNext>3819686371</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>137</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointIn' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>240</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>185357081</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>138</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 't' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>286</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>31556339</CodePrev>
+    <CodeCurrent>32436691</CodeCurrent>
+    <CodeNext>710761504</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>139</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'cbw' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>177</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>338266602</CodeCurrent>
+    <CodeNext>5202293</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>140</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'cbw' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>43</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>710761504</CodePrev>
+    <CodeCurrent>185357081</CodeCurrent>
+    <CodeNext>5202293</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>141</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 't' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>107</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>31556339</CodePrev>
+    <CodeCurrent>32436691</CodeCurrent>
+    <CodeNext>710761504</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>142</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointIn' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>108</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>2181380196</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>143</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointOut' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>108</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>2181380196</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>144</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'cbw' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>109</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>710761504</CodePrev>
+    <CodeCurrent>2181380196</CodeCurrent>
+    <CodeNext>5202293</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>145</DefaultOrder>
+    <ErrorCode>V576</ErrorCode>
+    <Message>Incorrect format. Consider checking the second actual argument of the 'printf' function. The integer argument of 32-bit size is expected.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>559</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>125</CodePrev>
+    <CodeCurrent>4103544714</CodeCurrent>
+    <CodeNext>3819686371</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>146</DefaultOrder>
+    <ErrorCode>V729</ErrorCode>
+    <Message>Function body contains the 'retry_read' label that is not used by any 'goto' statements.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>433</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>4393285</CodePrev>
+    <CodeCurrent>180103</CodeCurrent>
+    <CodeNext>5202297</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>147</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'cbw' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>432</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>513447914</CodePrev>
+    <CodeCurrent>4393285</CodeCurrent>
+    <CodeNext>180103</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>148</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointOut' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>430</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>513447914</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>149</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointIn' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>430</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>513447914</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>150</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 't' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>170</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>31556339</CodePrev>
+    <CodeCurrent>32436691</CodeCurrent>
+    <CodeNext>710761504</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>151</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 't' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>239</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>31556339</CodePrev>
+    <CodeCurrent>32436691</CodeCurrent>
+    <CodeNext>710761504</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>152</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointIn' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>171</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>153</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointOut' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>366</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>4393285</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>154</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointIn' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>366</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>4393285</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>155</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 't' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>365</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>31556339</CodePrev>
+    <CodeCurrent>32436691</CodeCurrent>
+    <CodeNext>710761504</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>156</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointOut' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>171</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>157</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'cbw' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>284</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>710761504</CodePrev>
+    <CodeCurrent>185357081</CodeCurrent>
+    <CodeNext>5202293</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>158</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointOut' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>283</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>185357081</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>159</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointIn' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>283</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>185357081</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>160</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 't' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>282</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>31556339</CodePrev>
+    <CodeCurrent>32436691</CodeCurrent>
+    <CodeNext>710761504</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>161</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'cbw' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>237</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>710761504</CodePrev>
+    <CodeCurrent>185357081</CodeCurrent>
+    <CodeNext>77583</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>162</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointOut' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>236</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>185357081</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>163</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointIn' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>236</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>185357081</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>164</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'cbw' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>367</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>710761504</CodePrev>
+    <CodeCurrent>4393285</CodeCurrent>
+    <CodeNext>5202293</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>165</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointOut' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>42</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>259495507</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>185357081</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>166</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 't' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>429</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>379494639</CodePrev>
+    <CodeCurrent>32436691</CodeCurrent>
+    <CodeNext>710761504</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>167</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 't' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>41</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>252448371</CodePrev>
+    <CodeCurrent>259495507</CodeCurrent>
+    <CodeNext>710761504</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>168</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointOut' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>175</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>169</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointIn' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>175</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>170</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 't' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>174</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>31556339</CodePrev>
+    <CodeCurrent>32436691</CodeCurrent>
+    <CodeNext>710761504</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>171</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'cbw' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>113</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>32436691</CodePrev>
+    <CodeCurrent>35135557</CodeCurrent>
+    <CodeNext>5202293</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>172</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 't' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>112</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>31556339</CodePrev>
+    <CodeCurrent>32436691</CodeCurrent>
+    <CodeNext>35135557</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>173</DefaultOrder>
+    <ErrorCode>V576</ErrorCode>
+    <Message>Incorrect format. Consider checking the second actual argument of the 'printf' function. The integer argument of 32-bit size is expected.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>561</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>125</CodePrev>
+    <CodeCurrent>4103544714</CodeCurrent>
+    <CodeNext>3819686371</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>174</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'cbw' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>56</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>78199</CodePrev>
+    <CodeCurrent>35135557</CodeCurrent>
+    <CodeNext>5202293</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>175</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointOut' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>53</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>259495507</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>176</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointIn' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>53</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>259495507</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>177</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 't' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>52</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>252448371</CodePrev>
+    <CodeCurrent>259495507</CodeCurrent>
+    <CodeNext>710761504</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>178</DefaultOrder>
+    <ErrorCode>V688</ErrorCode>
+    <Message>The 'endpointIn' local variable possesses the same name as one of the class members, which can result in a confusion.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>42</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>259495507</CodePrev>
+    <CodeCurrent>710761504</CodeCurrent>
+    <CodeNext>185357081</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>179</DefaultOrder>
+    <ErrorCode>V576</ErrorCode>
+    <Message>Incorrect format. Consider checking the second actual argument of the 'printf' function. The integer argument of 32-bit size is expected.</Message>
+    <Project />
+    <ShortFile>msd.cpp</ShortFile>
+    <Line>560</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\msd.cpp</File>
+    <CodePrev>125</CodePrev>
+    <CodeCurrent>4103544714</CodeCurrent>
+    <CodeNext>3819686371</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>180</DefaultOrder>
+    <ErrorCode>V550</ErrorCode>
+    <Message>An odd precise comparison: scb-&gt;la != - (1e18 + 1). It's probably better to use a comparison with defined precision: fabs(A - B) &gt; Epsilon.</Message>
+    <Project />
+    <ShortFile>storage.cpp</ShortFile>
+    <Line>37</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\storage.cpp</File>
+    <CodePrev>1792282246</CodePrev>
+    <CodeCurrent>192617351</CodeCurrent>
+    <CodeNext>1236472417</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-682</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>181</DefaultOrder>
+    <ErrorCode>V601</ErrorCode>
+    <Message>The 'true' value is implicitly cast to the integer type.</Message>
+    <Project />
+    <ShortFile>storage.cpp</ShortFile>
+    <Line>42</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\storage\storage.cpp</File>
+    <CodePrev>1409073</CodePrev>
+    <CodeCurrent>88117</CodeCurrent>
+    <CodeNext>125</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>182</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>Dereferencing of the null pointer 'qh' might take place. The potential null pointer is passed into 'ehci_insert_async_qh' function. Inspect the second argument. Check lines: 127, 443.</Message>
+    <Project />
+    <ShortFile>ehci.cpp</ShortFile>
+    <Line>127</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\ehci.cpp</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>3420397747</CodeCurrent>
+    <CodeNext>2130180277</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>127,443</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>183</DefaultOrder>
+    <ErrorCode>V779</ErrorCode>
+    <Message>Unreachable code detected. It is possible that an error is present.</Message>
+    <Project />
+    <ShortFile>ehci.cpp</ShortFile>
+    <Line>714</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\ehci.cpp</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>4262059166</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-561</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>184</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>Dereferencing of the null pointer 'qh' might take place. The potential null pointer is passed into 'ehci_insert_periodic_qh' function. Inspect the second argument. Check lines: 140, 493.</Message>
+    <Project />
+    <ShortFile>ehci.cpp</ShortFile>
+    <Line>140</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\ehci.cpp</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>321074537</CodeCurrent>
+    <CodeNext>3240696521</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>140,493</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>185</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>Dereferencing of the null pointer 'qh' might take place. The potential null pointer is passed into 'EhciWaitForQH' function. Inspect the second argument. Check lines: 341, 448.</Message>
+    <Project />
+    <ShortFile>ehci.cpp</ShortFile>
+    <Line>341</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\ehci.cpp</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>4008928714</CodeCurrent>
+    <CodeNext>2427642</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>341,448</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>186</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>Dereferencing of the null pointer 'qh' might take place. The potential null pointer is passed into 'ehci_insert_async_qh' function. Inspect the second argument. Check lines: 127, 488.</Message>
+    <Project />
+    <ShortFile>ehci.cpp</ShortFile>
+    <Line>127</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\ehci.cpp</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>3420397747</CodeCurrent>
+    <CodeNext>2130180277</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>127,488</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>187</DefaultOrder>
+    <ErrorCode>V779</ErrorCode>
+    <Message>Unreachable code detected. It is possible that an error is present.</Message>
+    <Project />
+    <ShortFile>ehci.cpp</ShortFile>
+    <Line>713</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\ehci.cpp</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>4262059166</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-561</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>188</DefaultOrder>
+    <ErrorCode>V566</ErrorCode>
+    <Message>The integer constant is converted to pointer. Possibly an error or a bad coding style: (char *) 0xB8000</Message>
+    <Project />
+    <ShortFile>ehci.cpp</ShortFile>
+    <Line>271</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\ehci.cpp</File>
+    <CodePrev>554641</CodePrev>
+    <CodeCurrent>2206182761</CodeCurrent>
+    <CodeNext>1647</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-587</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>189</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>Dereferencing of the null pointer 'qh' might take place. The potential null pointer is passed into 'ehci_insert_periodic_qh' function. Inspect the second argument. Check lines: 140, 492.</Message>
+    <Project />
+    <ShortFile>ehci.cpp</ShortFile>
+    <Line>140</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\ehci.cpp</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>321074537</CodeCurrent>
+    <CodeNext>3240696521</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>140,492</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>190</DefaultOrder>
+    <ErrorCode>V522</ErrorCode>
+    <Message>Dereferencing of the null pointer 'qh' might take place. The potential null pointer is passed into 'EhciWaitForQH' function. Inspect the second argument. Check lines: 341, 447.</Message>
+    <Project />
+    <ShortFile>ehci.cpp</ShortFile>
+    <Line>341</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\ehci.cpp</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>4008928714</CodeCurrent>
+    <CodeNext>2427642</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>341,447</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-628</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>191</DefaultOrder>
+    <ErrorCode>V566</ErrorCode>
+    <Message>The integer constant is converted to pointer. Possibly an error or a bad coding style: (char *) 0xB8000</Message>
+    <Project />
+    <ShortFile>ehci.cpp</ShortFile>
+    <Line>273</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\ehci.cpp</File>
+    <CodePrev>554641</CodePrev>
+    <CodeCurrent>2206182761</CodeCurrent>
+    <CodeNext>1647</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-587</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>192</DefaultOrder>
+    <ErrorCode>V779</ErrorCode>
+    <Message>Unreachable code detected. It is possible that an error is present.</Message>
+    <Project />
+    <ShortFile>ehci.cpp</ShortFile>
+    <Line>711</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\ehci.cpp</File>
+    <CodePrev>0</CodePrev>
+    <CodeCurrent>4262059166</CodeCurrent>
+    <CodeNext>0</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-561</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>193</DefaultOrder>
+    <ErrorCode>V524</ErrorCode>
+    <Message>It is odd that the body of 'UsbDevRequest' function is fully equivalent to the body of 'UsbIntrRequest' function.</Message>
+    <Project />
+    <ShortFile>usbd.cpp</ShortFile>
+    <Line>87</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\usbd.cpp</File>
+    <CodePrev>113</CodePrev>
+    <CodeCurrent>633998358</CodeCurrent>
+    <CodeNext>3492795983</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension>35,87</LineExtension>
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>194</DefaultOrder>
+    <ErrorCode>V641</ErrorCode>
+    <Message>The size of the 'configBuf' buffer is not a multiple of the element size of the type 'UsbConfDesc'.</Message>
+    <Project />
+    <ShortFile>usbd.cpp</ShortFile>
+    <Line>198</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\usbd.cpp</File>
+    <CodePrev>3104403257</CodePrev>
+    <CodeCurrent>2502680758</CodeCurrent>
+    <CodeNext>1568191379</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>195</DefaultOrder>
+    <ErrorCode>V641</ErrorCode>
+    <Message>The size of the 'configBuf' buffer is not a multiple of the element size of the type 'UsbConfDesc'.</Message>
+    <Project />
+    <ShortFile>usbd.cpp</ShortFile>
+    <Line>250</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\usb\usbd.cpp</File>
+    <CodePrev>3104403257</CodePrev>
+    <CodeCurrent>2502680758</CodeCurrent>
+    <CodeNext>1568191379</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-704</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>196</DefaultOrder>
+    <ErrorCode>V566</ErrorCode>
+    <Message>The integer constant is converted to pointer. Possibly an error or a bad coding style: (char *) 0xB8000</Message>
+    <Project />
+    <ShortFile>video.cpp</ShortFile>
+    <Line>17</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\video.cpp</File>
+    <CodePrev>20143</CodePrev>
+    <CodeCurrent>2206182761</CodeCurrent>
+    <CodeNext>2559051810</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-587</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>197</DefaultOrder>
+    <ErrorCode>V566</ErrorCode>
+    <Message>The integer constant is converted to pointer. Possibly an error or a bad coding style: (char *) 0xB8000</Message>
+    <Project />
+    <ShortFile>video.cpp</ShortFile>
+    <Line>9</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\video.cpp</File>
+    <CodePrev>1328847720</CodePrev>
+    <CodeCurrent>1803680074</CodeCurrent>
+    <CodeNext>1342512727</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-587</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>198</DefaultOrder>
+    <ErrorCode>V566</ErrorCode>
+    <Message>The integer constant is converted to pointer. Possibly an error or a bad coding style: (char *) 0xB8000</Message>
+    <Project />
+    <ShortFile>video.cpp</ShortFile>
+    <Line>8</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\video.cpp</File>
+    <CodePrev>123</CodePrev>
+    <CodeCurrent>1328847720</CodeCurrent>
+    <CodeNext>1803680074</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-587</CWECode>
+  </PVS-Studio_Analysis_Log>
+  <PVS-Studio_Analysis_Log>
+    <FavIcon>false</FavIcon>
+    <Level>3</Level>
+    <DefaultOrder>199</DefaultOrder>
+    <ErrorCode>V566</ErrorCode>
+    <Message>The integer constant is converted to pointer. Possibly an error or a bad coding style: (char *) 0xB8000</Message>
+    <Project />
+    <ShortFile>video.cpp</ShortFile>
+    <Line>43</Line>
+    <FalseAlarm>false</FalseAlarm>
+    <File>E:\ButterflyOS\sources\video.cpp</File>
+    <CodePrev>11235</CodePrev>
+    <CodeCurrent>4284136945</CodeCurrent>
+    <CodeNext>2945</CodeNext>
+    <TrialMessage>false</TrialMessage>
+    <Analyzer>4</Analyzer>
+    <LineExtension />
+    <Retired>false</Retired>
+    <AnalyzedSourceFiles />
+    <CWECode>CWE-587</CWECode>
+  </PVS-Studio_Analysis_Log>
+</NewDataSet>

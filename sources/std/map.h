@@ -12,6 +12,7 @@ public:
 	{
 		first = a.first;
 		second = a.second;
+        return *this;
 	}
 
 	int operator-(pair<_Key, _Ty> a)
@@ -44,6 +45,7 @@ public:
 		{
 			this->first = a.first;
 			this->second = a.second;
+            return *this;
 		}
 
 		iterator operator++(int a)

@@ -22,6 +22,7 @@ char * strchr(const char *p, int c);
 char * strichr(char *p, int c);
 int gethex(int *vp, char *p, int n);
 //char * llbtoa(char *dst, int value, int base);
+int vsprintf(char *d, const char *s, va_list ap);
 int printf(const char * str, ...);
 #include "memory/memory.h"
 #include "target.h"

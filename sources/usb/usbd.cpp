@@ -32,58 +32,6 @@ UsbDevice *UsbDevCreate()
 }
 
 // ------------------------------------------------------------------------------------------------
-bool UsbIntrRequest(UsbDevice *dev,
-	unsigned int type, unsigned int request,
-	unsigned int value, unsigned int index,
-	unsigned int len, void *data)
-{
-	UsbDevReq req;
-	req.type = type;
-	req.req = request;
-	req.value = value;
-	req.index = index;
-	req.len = len;
-
-	UsbTransfer t;
-	t.endp = 0;
-	t.req = &req;
-	//t.toggle
-	t.data = data;
-	t.len = len;
-	t.complete = false;
-	t.success = false;
-
-	dev->hcControl(dev, &t);
-
-	return t.success;
-}
-
-// ------------------------------------------------------------------------------------------------
-bool UsbEndpqRequest(UsbDevice *dev,
-	unsigned int type, unsigned int request,
-	unsigned int value, unsigned int index,
-	unsigned int len, void *data)
-{
-	UsbDevReq req;
-	req.type = type;
-	req.req = request;
-	req.value = value;
-	req.index = index;
-	req.len = len;
-
-	UsbTransfer t;
-	t.endp = 0;
-	t.req = &req;
-	t.data = data;
-	t.len = len;
-	t.complete = false;
-	t.success = false;
-
-	dev->hcIntr(dev, &t);
-
-	return t.success;
-}
-// ------------------------------------------------------------------------------------------------
 bool UsbDevRequest(UsbDevice *dev,
 	unsigned int type, unsigned int request,
 	unsigned int value, unsigned int index,
@@ -179,11 +127,6 @@ bool UsbDevGetString(UsbDevice *dev, char *str, unsigned int langId, unsigned in
 	return true;
 }
 
-// ------------------------------------------------------------------------------------------------
-bool UsbDevClearHalt(UsbDevice *dev)
-{
-
-}
 
 #include "../includes/interrupts.h"
 // ------------------------------------------------------------------------------------------------
@@ -222,20 +165,18 @@ bool UsbDevInit(UsbDevice *dev)
 	}
 
 	// Dump descriptor
-	//UsbPrintDeviceDesc(&devDesc);
 
 	// String Info
 	UsbDevGetLangs(dev, (short unsigned int*)&dev->langs);
 
 	unsigned int langId = dev->langs[0];
 
-	//printTextToWindow(1, mywin, "%x",(int)langs[0]);
 	if (langId)
 	{
 		UsbDevGetString(dev, (char*)&dev->productStr, langId, devDesc.productStr);
 		UsbDevGetString(dev, (char*)&dev->vendorStr, langId, devDesc.vendorStr);
 		UsbDevGetString(dev, (char*)&dev->serialStr, langId, devDesc.serialStr);
-		printf("Product='%s' Vendor='%s' Serial=%s\n", &dev->productStr, &dev->vendorStr, &dev->serialStr);
+		log_debug(DEBUG_INFO, "Product = '%s' Vendor = '%s' Serial = %s\n", &dev->productStr, &dev->vendorStr, &dev->serialStr);
 	}
 	// Pick configuration and interface - grab first for now
 	u8 configBuf[256];
@@ -288,8 +229,8 @@ bool UsbDevInit(UsbDevice *dev)
 		{
 			u8 len = data[0];
 			u8 type = data[1];
-			//Assume, that data are sorted like:
-			//..., Interface, endp, endp, ..., interface, endp, endp, ...
+			// Assume, that data are sorted like:
+			// ..., Interface, endp, endp, ..., interface, endp, endp, ...
 			switch (type)
 			{
 			case USB_DESC_INTF:
@@ -326,6 +267,7 @@ bool UsbDevInit(UsbDevice *dev)
 				if (!pickedIntfDesc)
 				{
 					//Wtf is going on????
+                    free(endp_desc);
 				//	printTextToWindow(4, mywin, "WTF??? We aren't receive interface first!");
 					return 0;
 					//pickedEndpDesc = endp_desc;
@@ -389,9 +331,7 @@ void UsbService()
 }
 void UsbPoll()
 {
-	//if (!pcidone) return;
-	//usbPoll = 0;
-
+	
 	for (UsbController *c = g_usbControllerList; c; c = c->next)
 	{
 		if (c->poll)

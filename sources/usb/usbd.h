@@ -184,7 +184,7 @@ typedef struct UsbStringDesc
 {
 	unsigned char len;
 	unsigned char type;
-	unsigned short str[];
+	unsigned short str[1];
 } PACKED UsbStringDesc;
 
 // ------------------------------------------------------------------------------------------------

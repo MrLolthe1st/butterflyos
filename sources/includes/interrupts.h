@@ -14,7 +14,7 @@ extern "C" void _## func()
 __asm__(#func ": \npusha \n call __"#func " \n movb $0x20, %al \n outb %al, $0x20 \n movb $0x20, %al \n outb %al, $0xA0 \n popa  \n iret \n");\
 extern "C" void _## func()
 void init_idt();
-void inst(unsigned char interruptID, void * address, unsigned char flags);
-extern long long time1024;
+void install_interrupt(unsigned char interruptID, void * address, unsigned char flags);
+volatile extern long long time1024;
 void Wait(int cnt);
 #endif

@@ -11,7 +11,7 @@ void drives_init();
 #define DEVTYPE_MSD 0x03
 
 class logical_drive {
-	int dev_type;
+	int dev_type = 0;
 	disk_storage * strg;
 public:
 	long long disk_offset = 0;
@@ -19,7 +19,7 @@ public:
 	int read(long long, short, void *);
 	int write(long long, short, void *);
 	char * name = 0;
-	logical_drive(disk_storage * str, long long offset, long long size, char * name = 0) { this->disk_offset = offset; this->size_in_sectors = size; this->strg = str; this->name = name; };
+	logical_drive(disk_storage * str, long long offset, long long size, char * name = 0, int dev_type = 0) { this->dev_type = dev_type; this->disk_offset = offset; this->size_in_sectors = size; this->strg = str; this->name = name; };
 
 private:
 };

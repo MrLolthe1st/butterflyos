@@ -3,30 +3,55 @@
 #define IDT_ADDRESS 0x9000
 #define IDT_RANGE 0x9800
 #define CODE_SEGMENT 0x08
-void inst(unsigned char interruptID, void * address, unsigned char flags) {
+
+/*
+	Installs an interrupt with id to address with flags
+*/
+void install_interrupt_protected(unsigned char id, void * address, unsigned char flags) {
+
 	char * it = (char*)IDT_ADDRESS;
-	unsigned char i;
+	
 	unsigned char a[8];
+
 	a[0] = (unsigned int)address & 0x000000FF;
 	a[1] = ((unsigned int)address & 0x0000FF00) >> 8;
+
+	// Set it to Ring 0 CS
 	a[2] = CODE_SEGMENT;
 	a[3] = 0;
 	a[4] = 0;
+
 	a[5] = flags;
 	a[6] = ((unsigned int)address & 0x00FF0000) >> 16;
 	a[7] = ((unsigned int)address & 0xFF000000) >> 24;
+
+	// And copy the copy to IDT
 	for (int k = 0; k < 8; k++)
-		* (it + interruptID * 8 + k) = a[k];
+		* (it + id * 8 + k) = a[k];
 }
 
-// ------------------------------------------------------------------------------------------------
-void int_l() {
+/*
+	Loads the IDT address to CPU
+*/
+void load_interrupts() {
+
 	unsigned short * limit = (unsigned short*)IDT_RANGE;
-	unsigned int * place = (unsigned int*)(IDT_RANGE + 2); *limit = 256 * 8 - 1; *place = IDT_ADDRESS;
+	unsigned int * place = (unsigned int*)(IDT_RANGE + 2);
+	*limit = 256 * 8 - 1;
+	*place = IDT_ADDRESS;
 	__asm__("lidt 0(,%0,)"::"a" (IDT_RANGE));
+
 }
+
+
+/* 
+	There is some piece of bad code, do not beat me,
+	it used for debugging, testing and other, in stable
+	build it won't exists
+*/
 
 #include "includes/video.h"
+
 long long time = 0;
 IRQ_HANDLER(pit_timer)
 {
@@ -38,7 +63,6 @@ IRQ_HANDLER(pit_timer)
 		last_press = time;
 	}
 }
-
 
 
 IRQ_HANDLER(ps2_keyboard)
@@ -53,37 +77,40 @@ IDT_HANDLER(some)
 
 IRQ_HANDLER(some1)
 {
-
-	printf("&");
+	//printf("&");
 }
 
 IRQ_HANDLER_PIC2(some2)
 {
-	printf("~");
+	//printf("~");
 }
-long long time1024 = 0;
+
+volatile long long time1024 = 0;
+
 IRQ_HANDLER_PIC2(rtc_time)
 {
 	outportb(0x70, 0x0C);	// select register C
-	inportb(0x71);		// just throw away contents
+	inportb(0x71);			// just throw away contents
 	time1024++;
 }
 
 void Wait(int cnt) {
-	long long t = time1024; int a;
-	//cnt *= 10;
-	//printf("!%d %d!", cnt, (int)time1024);
-	while ((time1024 - t) < cnt) {
-		//printf("1");
+	long long t = time1024; int a = 0;
+	while ((time1024 - t) < cnt)
+		// GCC tries to optimize it, just increment some integer
 		a++;
-	}
 
 }
 void init_idt()
 {
+	// Remap PIC
 	outportb(0x20, 0x11);
 	outportb(0xa0, 0x11);
+
+	// set first IRQs lines to 0x2#th IDT entries
 	outportb(0x21, 0x20);
+
+	// set second IRQ lines(8 - 15) to 0x2# IDT entries
 	outportb(0xa1, 0x28);
 	outportb(0x21, 0x04);
 	outportb(0xa1, 0x02);
@@ -91,21 +118,30 @@ void init_idt()
 	outportb(0xa1, 0x01);
 	outportb(0x21, 0x00);
 	outportb(0xa1, 0x00);
+
+	// Fill the table
 	for (int i = 0; i < 256; i++)
-		inst(i, &some, 0x8E);
+		install_interrupt_protected(i, &some, 0x8E);
+
 	for (int i = 0x20; i < 0x30; i++)
-		inst(i, &some1, 0x8E);
+		install_interrupt_protected(i, &some1, 0x8E);
+
 	for (int i = 0x30; i < 0x40; i++)
-		inst(i, &some2, 0x8E);
-	inst(0x20, &pit_timer, 0x8E);
-	inst(0x21, &ps2_keyboard, 0x8E);
-	inst(0x28, &rtc_time, 0x8E);
-	outportb(0x70, 0x8B);		// select register B, and disable NMI
-	char prev = inportb(0x71);	// read the current value of register B
-	outportb(0x70, 0x8B);		// set the index again (a read will reset the index to register D)
+		install_interrupt_protected(i, &some2, 0x8E);
+
+	install_interrupt_protected(0x20, &pit_timer, 0x8E);
+
+	install_interrupt_protected(0x21, &ps2_keyboard, 0x8E);
+
+	install_interrupt_protected(0x28, &rtc_time, 0x8E);
+
+	outportb(0x70, 0x8B);			// select register B, and disable NMI
+	char prev = inportb(0x71);		// read the current value of register B
+	outportb(0x70, 0x8B);			// set the index again (a read will reset the index to register D)
 	outportb(0x71, prev | 0x40);	// write the previous value ORed with 0x40. This turns on bit 6 of register B
-	outportb(0x70, 0x0C);	// select register C
-	inportb(0x71);		// just throw away contents
-	int_l();
+	outportb(0x70, 0x0C);			// select register C
+	inportb(0x71);					// just throw away contents
+	load_interrupts();				// Load IDT to processor
+	// And turn on interrupts
 	__asm__("sti");
 }

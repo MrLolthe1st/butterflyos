@@ -1063,9 +1063,9 @@ void *memset(void *buf, int ch, size_t count)
 	for (size_t i = 0; i < count; i++)
 		*c++ = ch;
 }
-char buffer[1024];
 int printf(const char * str, ...)
 {
+	char buffer[1024];
 	if (!str)
 		return 0;
 	va_list ap;

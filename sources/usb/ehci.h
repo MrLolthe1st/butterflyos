@@ -79,7 +79,7 @@ typedef struct EhciOpRegs
 	volatile u32 asyncListAddr;
 	volatile u32 reserved[9];
 	volatile u32 configFlag;
-	volatile u32 ports[];
+	volatile u32 ports[1];
 } EhciOpRegs;
 #define usbCmdO				0
 #define usbStsO				4
